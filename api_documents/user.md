@@ -37,7 +37,16 @@
 	response
 	{
 		result:(0|1)#0登录失败，#1登录成功
-		msg:#(失败信息)
+		msg:#(失败信息),
+		user:{
+			id:"用户id",
+			username:"用户名",
+			password:"密码",
+			phone:"手机",
+			email:"邮箱",
+			regist_time:"注册时间"		
+		}
+
 	}
 
 

@@ -8,14 +8,14 @@
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
-testget();
+testpost();
 function testpost(){
 	$.ajax({
-		url:"/apiManagerEndCode/src/user.php",
+		url:"/apiManagerEndCode/src/user.php?type=0",
 		type:"post",
 		dataType:"json",
 		data:{
-			username:"lyh1",
+			username:"lyh2",
 			password:"123123",
 			email:"11343@11.com",
 			phone:"17862700161"
@@ -30,11 +30,11 @@ function testpost(){
 
 function testget(){
 	$.ajax({
-		url:"/apiManagerEndCode/src/user.php",
-		type:"get",
+		url:"/apiManagerEndCode/src/user.php?type=1",
+		type:"post",
 		dataType:"json",
 		data:{
-			username:"lyh2",
+			username:"lyh",
 			password:"123123",
 		},
 		success:function(data){

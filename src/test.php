@@ -8,17 +8,17 @@
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
-testpost();
+testget();
 function testpost(){
 	$.ajax({
 		url:"/apiManagerEndCode/src/user.php?type=0",
 		type:"post",
 		dataType:"json",
 		data:{
-			username:"lyh2",
-			password:"123123",
-			email:"11343@11.com",
-			phone:"17862700161"
+			username:"lyh6",
+			password:"123123121",
+			email:"11343@111.com",
+			phone:"178627001611"
 		},
 		success:function(data){
 
@@ -34,7 +34,7 @@ function testget(){
 		type:"post",
 		dataType:"json",
 		data:{
-			username:"lyh",
+			username:"lyh1",
 			password:"123123",
 		},
 		success:function(data){

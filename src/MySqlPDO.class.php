@@ -27,7 +27,7 @@ class MySqlPDO{
 	}
 
 	function prepare($sql){
-		$this->objStatement=$this->db->prepare($sql);
+		return $this->objStatement=$this->db->prepare($sql);
 	}
 
 	function executeArr($arr){

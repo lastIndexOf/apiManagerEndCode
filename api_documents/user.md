@@ -8,7 +8,7 @@
 
 ### <a name="regist">1.注册用户</a>
 
-    post /apiManagerEndCode/src/user.php
+    post /apiManagerEndCode/src/user.php?type=0
 	request:
 	{
 		username:#(用户名),
@@ -26,11 +26,12 @@
 
 ### <a name="login">2.登录</a>
 
-	get /apiManagerEndCode/src/user.php
+	get /apiManagerEndCode/src/user.php?type=1
 
 	request:
 	{
-		username:#(用户名)
+		type:(0|1|2)#0 表示用户名登录，1表示手机号码 2表示邮箱
+		login:#(登陆)
 		password:#(密码)
 	}
 
@@ -52,7 +53,7 @@
 
 ### <a name="changeInfo">3.修改信息</a>
 
-	put /apiManagerEndCode/src/user.php
+	post /apiManagerEndCode/src/user.php?type=2
 	
 	request:
 	{

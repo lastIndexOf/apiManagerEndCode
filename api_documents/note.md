@@ -77,38 +77,87 @@
 	{
 		title:(标题),
 		page:#(第几页),
-		pagesize
+		pagesize:#(每一页的页数)
 	}
 	
 	response:
+	{
 		result:(0|1)#0查询失败 #1 查询成功
-		msg:#(失败信息)
-		notes:{[
-				id:#(备忘录id),
-				content:(内容),
-				title:(标题),
-				m_title:(小标题),
-				time:(备忘录创建时间或最后一次修改时间)
-				],
-		}
+		msg:#(失败信息),
+		totalnum:#(总条数)
+		notes:[{
+					id:#(备忘录id),
+					content:(内容),
+					title:(标题),
+					m_title:(小标题),
+					time:(备忘录创建时间或最后一次修改时间)
+				},
+				{
+					id:#(备忘录id),
+					content:(内容),
+					title:(标题),
+					m_title:(小标题),
+					time:(备忘录创建时间或最后一次修改时间)
+				},...]
 	}
 
 ### 6. <a name='like_m_title'>根据小标题相似查找</a>
 
 	request:
 	{
-		m_title:()
+		m_title:(),
+		page:(),
+		pagesize:(),
 	}
 	
 	response:
 		result:(0|1)#0查询失败 #1 查询成功
-		msg:#(失败信息)
-		note:{
-			id:#(备忘录id),
-			content:(内容),
-			title:(标题),
-			m_title:(小标题),
-			time:(备忘录创建时间或最后一次修改时间)
-		}
+		msg:#(失败信息),
+		totalnum:(),
+		notes:
+			[{
+				id:#(备忘录id),
+				content:(内容),
+				title:(标题),
+				m_title:(小标题),
+				time:(备忘录创建时间或最后一次修改时间)
+			},
+			{
+				id:#(备忘录id),
+				content:(内容),
+				title:(标题),
+				m_title:(小标题),
+				time:(备忘录创建时间或最后一次修改时间)
+			},...]
 	}
 
+### 6. <a name='querybycontent'>根据内容相似查找</a>
+	
+	request:
+	{
+		content:#(),
+		page:(),
+		pagesize:()
+	}
+	
+	response:
+	{
+		result:(0|1)#0查询失败 #1 查询成功
+		msg:#(失败信息),
+		totalnum:(),
+		notes:[
+				{
+					id:#(备忘录id),
+					content:(内容),
+					title:(标题),
+					m_title:(小标题),
+					time:(备忘录创建时间或最后一次修改时间)
+				},
+				{
+					id:#(备忘录id),
+					content:(内容),
+					title:(标题),
+					m_title:(小标题),
+					time:(备忘录创建时间或最后一次修改时间)
+				},...]
+	}

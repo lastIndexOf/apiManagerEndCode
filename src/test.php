@@ -34,8 +34,9 @@ function testget(){
 		type:"post",
 		dataType:"json",
 		data:{
-			username:"lyh1",
-			password:"123123",
+			type:'2',
+			username:"11343@.com",
+			password:"1231231111",
 		},
 		success:function(data){
 

@@ -2,8 +2,12 @@
 ##
 
 ###1. regist [注册](#regsit)
+
 ###2. login [登录](#login)
+
 ###3. changeInfo [修改信息](#changeInfo)
+
+###4. exitLogin [退出登录]（#exitLogin）
 ##
 
 ### <a name="regist">1.注册用户</a>
@@ -70,3 +74,12 @@
 		result:#(0|1)#0修改成功，#1修改失败
 		msg:#(修改结果)
 	}
+
+### <a name='exitLogin'>退出登录</a>
+
+post /apiManagerEndCode/src/user.php?type=3
+
+request:
+{
+
+}

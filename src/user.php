@@ -9,7 +9,7 @@ user_operate();
 function user_operate(){
 
 	$result = array();
-
+	session_start(); 
 	if(isset($_GET["type"]) && !empty($_GET['type']) ) {
 		if ($_GET["type"]=='0') {//注册
 			$datareturn['result'] = 1;
@@ -97,6 +97,8 @@ function user_operate(){
 							foreach ($result_u as $key => $value) {
 								$datatemp['user'][$key] = $value;
 							}
+							$_SESSION["id"]=$datatemp['user']['id'];
+							$_SESSION["username"]=$datatemp['user']['username'];
 						}
 					}else{
 						$datatemp['result'] = 0;
@@ -121,6 +123,8 @@ function user_operate(){
 							foreach ($result_u as $key => $value) {
 								$datatemp['user'][$key] = $value;
 							}
+							$_SESSION["id"]=$datatemp['user']['id'];
+							$_SESSION["username"]=$datatemp['user']['username'];
 						}
 					}else{
 						$datatemp['result'] = 0;
@@ -145,7 +149,6 @@ function user_operate(){
 							foreach ($result_u as $key => $value) {
 								$datatemp['user'][$key] = $value;
 							}
-							session_start(); 
 							$_SESSION["id"]=$datatemp['user']['id'];
 							$_SESSION["username"]=$datatemp['user']['username'];
 						}
@@ -174,11 +177,37 @@ function user_operate(){
 			}
 
 		}else if ($_GET['type']=='3') {
+			session_start();
 			unset($_SESSION["id"]);
 			unset($_SESSION["username"]);
+			$result['result']='<p>正在登出...</p><script>setTimeout(function() {window.location.href = '/'}, 1500)</script>';
+		}else if ($_GET['type']=='4') {
+			$id =$_POST['id'];
+			$result = array();
+			$result['result']='0';
+
+
+			if ($id == $_SESSION['id']) {
+				$query_user="select * from user where id = ?";
+				$mypdo = new MySqlPDO();
+				$mypdo->prepare($query_user);
+				$myarray = array($id);
+				if ($mypdo->executeArr($myarray)) {
+					$result_u = $mypdo->fetch();
+					$result['result']='1';
+					foreach ($result_u as $key => $value) {
+						$result['user'][$key] = $value;
+					}
+				}else{
+					$result['msg']='查询错误';
+				}
+			}else{
+				$result['msg']='尚未登录';
+			}
 		}
 	}else{
-		echo "string";
+		$result['result']='0';
+		$result['msg']='登录身份不对';
 	}
 
 	echo json_encode($result);

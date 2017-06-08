@@ -8,7 +8,7 @@
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
-testget();
+testtype4();
 function testpost(){
 	$.ajax({
 		url:"/apiManagerEndCode/src/user.php?type=0",
@@ -34,9 +34,9 @@ function testget(){
 		type:"post",
 		dataType:"json",
 		data:{
-			type:'2',
-			username:"11343@.com",
-			password:"1231231111",
+			type:'0',
+			username:"lyh",
+			password:"123123",
 		},
 		success:function(data){
 
@@ -45,6 +45,21 @@ function testget(){
 	})
 }
 
+
+function testtype4(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/user.php?type=4",
+		type:"post",
+		dataType:"json",
+		data:{
+			id:'1'
+		},
+		success:function(data){
+
+		},
+		error:function(){}
+	})
+}
 </script>
 
 

@@ -93,6 +93,7 @@ function user_operate(){
 						$myarray = array($username,$password);
 						if ($mypdo->executeArr($myarray) ){
 							$result_u = $mypdo->fetch();
+							$datatemp['result'] = 1;
 							foreach ($result_u as $key => $value) {
 								$datatemp['user'][$key] = $value;
 							}
@@ -116,6 +117,7 @@ function user_operate(){
 						$myarray = array($username,$password);
 						if ($mypdo->executeArr($myarray)) {
 							$result_u = $mypdo->fetch();
+							$datatemp['result'] = 1;
 							foreach ($result_u as $key => $value) {
 								$datatemp['user'][$key] = $value;
 							}
@@ -139,6 +141,7 @@ function user_operate(){
 						$myarray = array($username,$password);
 						if ($mypdo->executeArr($myarray) ){
 							$result_u = $mypdo->fetch();
+							$datatemp['result'] = 1;
 							foreach ($result_u as $key => $value) {
 								$datatemp['user'][$key] = $value;
 							}

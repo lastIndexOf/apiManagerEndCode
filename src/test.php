@@ -4,7 +4,9 @@
 	<title>test</title>
 </head>
 <body>
-<button onclick="testget()">登陆</button>
+<button onclick="testget()">login</button>
+
+<button onclick="testtype3()">logout</button>
 <form>
 
 	<input type="file" name="touxiang" id="touxiang" onchange="testtype5()">
@@ -43,6 +45,19 @@ function testget(){
 			type:'0',
 			username:"lyh",
 			password:"123123",
+		},
+		success:function(data){
+
+		},
+		error:function(){}
+	})
+}
+function testtype3(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/user.php?type=3",
+		type:"post",
+		dataType:"json",
+		data:{
 		},
 		success:function(data){
 

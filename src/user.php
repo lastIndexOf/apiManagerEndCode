@@ -182,12 +182,19 @@ function user_operate() {
 
 
 			echo json_encode($result);
-		}else if ($_GET['type']=='3') {
-			session_start();
-			unset($_SESSION["id"]);
-			unset($_SESSION["username"]);
-			echo '<p>正在登出...</p><script>setTimeout(function() {window.location.href = '/'}, 1500)</script>';
-		}else if ($_GET['type']=='4') {
+		}else if ($_GET['type']=='3') {//登出
+			$result = array();
+			if (isset($_SESSION["id"]) && isset($_SESSION["username"])) {
+				unset($_SESSION["id"]);
+				unset($_SESSION["username"]);
+				$result['result']=1;
+			}else{
+				$result['result']=0;
+				$result['msg']='您还未登录或者登陆身份过期';
+			}
+			
+			echo json_encode($result);
+		}else if ($_GET['type']=='4') {//根据id获取全部信息
 			$id =$_POST['id'];
 			$result = array();
 			$result['result']='0';
@@ -213,7 +220,7 @@ function user_operate() {
 
 
 			echo json_encode($result);
-		}else if ($_GET['type']=='5') {
+		}else if ($_GET['type']=='5') {//上传头像
 			$result_temp=array();
 
 			if (isset($_POST['avatar']) && !empty($_POST['avatar']) ) {

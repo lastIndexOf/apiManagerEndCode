@@ -7,6 +7,8 @@
 <button onclick="testget()">login</button>
 
 <button onclick="testtype3()">logout</button>
+
+<button onclick="testpost()">regist</button>
 <form>
 
 	<input type="file" name="touxiang" id="touxiang" onchange="testtype5()">
@@ -19,14 +21,14 @@
 <script type="text/javascript">
 function testpost(){
 	$.ajax({
-		url:"/apiManagerEndCode/src/user.php?type=0",
+		url:"/apiManagerEndCode/src/user.php?type=6",
 		type:"post",
 		dataType:"json",
 		data:{
-			username:"lyh6",
-			password:"123123121",
-			email:"11343@111.com",
-			phone:"178627001611"
+			username:"lyh11111",
+			password:"123123121111",
+			email:"11343@1111111.com",
+			phone:"1786270111101611"
 		},
 		success:function(data){
 

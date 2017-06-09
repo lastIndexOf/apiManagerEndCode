@@ -30,7 +30,7 @@
 
 ### <a name="login">2.登录</a>
 
-	get /apiManagerEndCode/src/user.php?type=1
+	get /apiManagerEndCode/src/user.php?type=6
 
 	request:
 	{

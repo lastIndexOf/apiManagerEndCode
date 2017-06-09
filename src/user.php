@@ -9,17 +9,16 @@ user_operate();
 function user_operate() {
 
 	$result = array();
-	session_start(); 
+	session_start();
 	if(isset($_GET["type"]) && !empty($_GET['type']) ) {
-		if ($_GET["type"]=='0') {//注册
-			$datareturn['result'] = 1;
+		if ($_GET["type"]=='6') {//注册
+			$datareturn = array();
 			$username = $_POST['username'];
 			$password = $_POST['password'];
 			$email = $_POST['email'];
 			$phone = $_POST['phone'];
 			$regist_time = date('Y-m-d H:i:s');
 			$mypdo=new MySqlPDO();
-			
 
 			$query_username = "select count(*) as num from user where `username`=?";
 			$mypdo->prepare($query_username);
@@ -52,18 +51,18 @@ function user_operate() {
 															);
 									$mypdo->executeArr($myarray_insert);
 									$datareturn['result']=1;
-								}else{
+								}else{//邮箱存在
 									$datareturn['result']=0;
 									$datareturn['msg']="邮箱已经被注册";
 								}
 							}
-						}else{
+						}else{//手机号因存在
 							$datareturn['result']=0;
 							$datareturn['msg']="手机已经被注册";
 						}
 					}
 
-				}else{
+				}else{//用户名已存在
 					$datareturn['result']=0;
 					$datareturn['msg']="用户名已经被注册";
 				}

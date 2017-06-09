@@ -47,8 +47,7 @@
 	delete /apiManagerEndCode/src/group.php
 	request:
 	{
-		id:#(group表的id)
-		agreenum:#(同意解除group的人数)
+		groupid:#(group id)
 	}
 
 	response:

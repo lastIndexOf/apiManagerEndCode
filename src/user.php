@@ -165,14 +165,17 @@ function user_operate() {
 
 
 			echo json_encode($result);
-		}else if ($_GET['type']== '2') {
-			$update = "update user set username=?,password=?,email=?,phone=? where id = ?";
+		}else if ($_GET['type']== '2') {//修改信息
+			$update = "update user set username=?,password=?,email=?,phone=?,
+			job=?,name=? where id = ?";
 			$mypdo = new MySqlPDO();
 			$mypdo->prepare($update);
 			$myarray = array($_POST['username'],
 							$_POST['password'],
 							$_POST['email'],
 							$_POST['phone'],
+							$_POST['job'],
+							$_POST['name'],
 							$_POST['userid']);
 			if ($mypdo->executeArr($myarray)) {
 				$datetemp['result']='1';

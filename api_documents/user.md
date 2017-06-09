@@ -65,13 +65,15 @@
 		username:#(用户名),
 		password:#(密码),
 		email:#(邮箱),
-		phone:#(手机)
+		phone:#(手机),
+		job:#(职位),
+		name:#(姓名)
 		
 	}
 
 	response:
 	{
-		result:#(0|1)#0修改成功，#1修改失败
+		result:#(0|1)#1修改成功，#0修改失败
 		msg:#(修改结果)
 	}
 

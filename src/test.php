@@ -9,6 +9,13 @@
 <button onclick="testtype3()">logout</button>
 
 <button onclick="testpost()">regist</button>
+
+<button onclick="testaddgroup()">增加组员</button>
+
+
+<button onclick="testupdategroup()">updateGroup</button>
+
+<button onclick="testdeletegroup()">deleteGroup</button>
 <form>
 
 	<input type="file" name="touxiang" id="touxiang" onchange="testtype5()">
@@ -19,6 +26,38 @@
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
+
+function testdeletegroup(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/group.php",
+		type:"delete",
+		dataType:"json",
+		data:{
+			groupid:"14"
+		},
+		success:function(data){
+
+		},
+		error:function(){}
+	})
+}
+
+function testupdategroup(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/group.php",
+		type:"update",
+		dataType:"json",
+		data:{
+			id:"1",
+			name:"2222"
+		},
+		success:function(data){
+
+		},
+		error:function(){}
+	})
+}
+
 function testpost(){
 	$.ajax({
 		url:"/apiManagerEndCode/src/user.php?type=6",
@@ -111,6 +150,24 @@ function testtype5(){
 
   	
 }
+
+
+function testaddgroup(){
+	$.ajax({
+			url:"/apiManagerEndCode/src/group.php",
+			type:"post",
+			dataType:"json",
+			data:{
+				ids:"1+2+3+4",
+				name:"1111"
+			},
+			success:function(data){
+
+			},
+			error:function(){}
+		})
+}
+
 </script>
 
 

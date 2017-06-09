@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50612
 File Encoding         : 65001
 
-Date: 2017-06-09 14:34:07
+Date: 2017-06-09 16:51:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -93,7 +93,7 @@ CREATE TABLE `docs` (
   `type` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '00单人，web\r\n10多人，web',
   PRIMARY KEY (`id`),
   KEY `group_id` (`group_id`),
-  CONSTRAINT `docs_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `group` (`id`)
+  CONSTRAINT `docs_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `group` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -105,11 +105,13 @@ CREATE TABLE `docs` (
 -- ----------------------------
 DROP TABLE IF EXISTS `group`;
 CREATE TABLE `group` (
-  `id` int(255) NOT NULL,
+  `id` int(255) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `headman` int(255) NOT NULL,
+  PRIMARY KEY (`id`,`headman`),
+  KEY `headman` (`headman`),
+  CONSTRAINT `group_ibfk_1` FOREIGN KEY (`headman`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of group
@@ -135,15 +137,15 @@ CREATE TABLE `group_chat` (
 -- ----------------------------
 DROP TABLE IF EXISTS `group_user`;
 CREATE TABLE `group_user` (
-  `id` int(255) NOT NULL,
+  `id` int(255) NOT NULL AUTO_INCREMENT,
   `groupid` int(255) NOT NULL,
   `userid` int(255) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `group_user_ibfk_1` (`groupid`),
+  KEY `group_user_ibfk_3` (`groupid`),
   KEY `group_user_ibfk_2` (`userid`),
-  CONSTRAINT `group_user_ibfk_1` FOREIGN KEY (`groupid`) REFERENCES `group` (`id`),
-  CONSTRAINT `group_user_ibfk_2` FOREIGN KEY (`userid`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `group_user_ibfk_2` FOREIGN KEY (`userid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `group_user_ibfk_3` FOREIGN KEY (`groupid`) REFERENCES `group` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of group_user
@@ -202,18 +204,14 @@ CREATE TABLE `user` (
   `phone` varchar(20) CHARACTER SET latin1 NOT NULL,
   `regist_time` datetime NOT NULL,
   `avatar` varchar(255) NOT NULL,
+  `job` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'lyh', '123123', '11343@11.com', '17862700161', '2017-06-07 12:16:02', '/apiManagerEndCode/imgs/avatar/default.jpg');
-INSERT INTO `user` VALUES ('2', 'lyh1', '123123', '11343@11.com', '17862700161', '2017-06-07 12:17:27', '/apiManagerEndCode/imgs/avatar/default.jpg');
-INSERT INTO `user` VALUES ('3', 'lyh2', '12312323', '11343@11.com', '17862700161', '2017-06-07 14:13:50', '/apiManagerEndCode/imgs/avatar/default.jpg');
-INSERT INTO `user` VALUES ('4', 'lyh6', '123123121', '11343@111.com', '178627001611', '2017-06-08 03:33:29', '/apiManagerEndCode/imgs/avatar/default.jpg');
-INSERT INTO `user` VALUES ('6', 'lyh7', '1232123', '123123@djk.com', '131', '2017-06-08 12:02:16', '/apiManagerEndCode/imgs/avatar/default.jpg');
-INSERT INTO `user` VALUES ('7', 'lyh11111', '123123121111', '11343@1111111.com', '1786270111101611', '2017-06-09 04:17:31', '/apiManagerEndCode/imgs/avatar/default.jpg');
 
 -- ----------------------------
 -- Table structure for user_char

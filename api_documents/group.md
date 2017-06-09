@@ -13,6 +13,7 @@
 	post /apiManagerEndCode/src/group.php
 	request:
 	{
+		ids:1+2+3,
 		name:#(组名称)
 	}
 

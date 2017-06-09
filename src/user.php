@@ -18,6 +18,7 @@ function user_operate() {
 			$email = $_POST['email'];
 			$phone = $_POST['phone'];
 			$regist_time = date('Y-m-d H:i:s');
+			$avatar = "/apiManagerEndCode/imgs/avatar/default.jpg";
 			$mypdo=new MySqlPDO();
 
 			$query_username = "select count(*) as num from user where `username`=?";
@@ -41,13 +42,14 @@ function user_operate() {
 								$result_email = $mypdo->fetch();
 								$result_email_num = $result_email['num'];
 								if ($result_email_num==0) {//这个邮箱没被注册过
-									$_insert = "insert into user (`username`,`phone`,`password`,`email`,`regist_time`)values(?,?,?,?,?)";
+									$_insert = "insert into user (`username`,`phone`,`password`,`email`,`regist_time`,`avatar`)values(?,?,?,?,?,?)";
 									$mypdo->prepare($_insert);
 									$myarray_insert = array($username,
 															$phone,
 															$password,
 															$email,
-															$regist_time
+															$regist_time,
+															$avatar
 															);
 									$mypdo->executeArr($myarray_insert);
 									$datareturn['result']=1;

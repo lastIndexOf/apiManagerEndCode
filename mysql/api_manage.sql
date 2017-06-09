@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50612
 File Encoding         : 65001
 
-Date: 2017-06-09 10:36:20
+Date: 2017-06-09 14:34:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -90,7 +90,7 @@ CREATE TABLE `docs` (
   `public_time` datetime NOT NULL,
   `group_id` int(255) NOT NULL,
   `desc` varchar(255) NOT NULL COMMENT '文档描述',
-  `type` varchar(255) NOT NULL COMMENT '00单人，web\r\n10多人，web',
+  `type` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '00单人，web\r\n10多人，web',
   PRIMARY KEY (`id`),
   KEY `group_id` (`group_id`),
   CONSTRAINT `docs_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `group` (`id`)
@@ -196,22 +196,24 @@ CREATE TABLE `note` (
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `phone` varchar(20) NOT NULL,
+  `username` varchar(50) CHARACTER SET latin1 NOT NULL,
+  `password` varchar(50) CHARACTER SET latin1 NOT NULL,
+  `email` varchar(50) CHARACTER SET latin1 NOT NULL,
+  `phone` varchar(20) CHARACTER SET latin1 NOT NULL,
   `regist_time` datetime NOT NULL,
   `avatar` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'lyh', '123123', '11343@11.com', '17862700161', '2017-06-07 12:16:02', '/apiManagerEndCode/imgs/avatar/lyh_1496975389.jpeg');
+INSERT INTO `user` VALUES ('1', 'lyh', '123123', '11343@11.com', '17862700161', '2017-06-07 12:16:02', '/apiManagerEndCode/imgs/avatar/default.jpg');
 INSERT INTO `user` VALUES ('2', 'lyh1', '123123', '11343@11.com', '17862700161', '2017-06-07 12:17:27', '/apiManagerEndCode/imgs/avatar/default.jpg');
 INSERT INTO `user` VALUES ('3', 'lyh2', '12312323', '11343@11.com', '17862700161', '2017-06-07 14:13:50', '/apiManagerEndCode/imgs/avatar/default.jpg');
 INSERT INTO `user` VALUES ('4', 'lyh6', '123123121', '11343@111.com', '178627001611', '2017-06-08 03:33:29', '/apiManagerEndCode/imgs/avatar/default.jpg');
+INSERT INTO `user` VALUES ('6', 'lyh7', '1232123', '123123@djk.com', '131', '2017-06-08 12:02:16', '/apiManagerEndCode/imgs/avatar/default.jpg');
+INSERT INTO `user` VALUES ('7', 'lyh11111', '123123121111', '11343@1111111.com', '1786270111101611', '2017-06-09 04:17:31', '/apiManagerEndCode/imgs/avatar/default.jpg');
 
 -- ----------------------------
 -- Table structure for user_char

@@ -10,6 +10,8 @@
 
 <button onclick="testpost()">regist</button>
 
+<button onclick="testchange()">changeinfo</button>
+
 <button onclick="testaddgroup()">增加组员</button>
 
 
@@ -26,6 +28,28 @@
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
+
+function testchange(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/user.php?type=2",
+		type:"post",
+		dataType:"json",
+		data:{
+			userid:8,
+			username:"#(111)",
+			password:"1111",
+			email:"13222",
+			phone:"178726",
+			job:"jinglui",
+			name:"li"
+		},
+		success:function(data){
+
+		},
+		error:function(){}
+	})
+
+}
 
 function testdeletegroup(){
 	$.ajax({
@@ -84,8 +108,8 @@ function testget(){
 		dataType:"json",
 		data:{
 			type:'0',
-			username:"lyh",
-			password:"123123",
+			username:"11111",
+			password:"1111",
 		},
 		success:function(data){
 

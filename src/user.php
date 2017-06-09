@@ -42,7 +42,7 @@ function user_operate() {
 								$result_email = $mypdo->fetch();
 								$result_email_num = $result_email['num'];
 								if ($result_email_num==0) {//这个邮箱没被注册过
-									$_insert = "insert into user (`username`,`phone`,`password`,`email`,`regist_time`,`avatar`)values(?,?,?,?,?,?)";
+									$_insert = "insert into user (`username`,`phone`,`password`,`email`,`regist_time`,`avatar`,`name`,`job`)values(?,?,?,?,?,?,null,null)";
 									$mypdo->prepare($_insert);
 									$myarray_insert = array($username,
 															$phone,
@@ -176,15 +176,14 @@ function user_operate() {
 							$_POST['phone'],
 							$_POST['job'],
 							$_POST['name'],
-							$_POST['userid']);
+							$_SESSION['id']);
 			if ($mypdo->executeArr($myarray)) {
 				$datetemp['result']='1';
 			}else{
 				$datetemp['result']='0';
 				$datetemp['msg']='更新失败';
 			}
-
-
+			$result = $datetemp;
 			echo json_encode($result);
 		}else if ($_GET['type']=='3') {//登出
 			$result = array();

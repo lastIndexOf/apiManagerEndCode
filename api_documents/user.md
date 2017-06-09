@@ -12,7 +12,7 @@
 
 ### <a name="regist">1.注册用户</a>
 
-    post /apiManagerEndCode/src/user.php?type=0
+    post /apiManagerEndCode/src/user.php?type=6
 	request:
 	{
 		username:#(用户名),
@@ -30,12 +30,12 @@
 
 ### <a name="login">2.登录</a>
 
-	get /apiManagerEndCode/src/user.php?type=6
+	get /apiManagerEndCode/src/user.php?type=1
 
 	request:
 	{
 		type:(0|1|2)#0 表示用户名登录，1表示手机号码 2表示邮箱
-		login:#(登陆)
+		username:#(登陆)
 		password:#(密码)
 	}
 

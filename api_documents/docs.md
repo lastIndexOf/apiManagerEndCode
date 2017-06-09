@@ -14,6 +14,8 @@
 	post /apiManagerEndCode/src/docs.php
 	request:
 	{
+		type:#(文档类型)
+		desc:#(文档描述)
 		title:#(文档标题),
 		groupid:#(所属的组id)
 	}
@@ -23,6 +25,9 @@
 		result:(0|1)#0增加失败， #1增加成功
 		msg:#(失败信息)
 	}
+
+	type---->00单人，web
+			10多人，web
 
 ###2. <a name='del'>删除文档</a>
 

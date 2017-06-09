@@ -4,11 +4,17 @@
 	<title>test</title>
 </head>
 <body>
+<button onclick="testget()">登陆</button>
+<form>
+
+	<input type="file" name="touxiang" id="touxiang" onchange="testtype5()">
+	<button ></button>
+	
+</form>
 
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
-testtype4();
 function testpost(){
 	$.ajax({
 		url:"/apiManagerEndCode/src/user.php?type=0",
@@ -59,6 +65,34 @@ function testtype4(){
 		},
 		error:function(){}
 	})
+}
+
+var base64code;
+function testtype5(){
+	var self = this;
+  	var file = $("#touxiang")[0].files[0];
+  	var fileReader = new FileReader();
+  	// this.user.User_Picture = window.URL.createObjectURL(file);
+  	fileReader.onload = function(){
+    	// self.touxiang = fileReader.result;;
+    	base64code = this.result;
+
+    	$.ajax({
+			url:"/apiManagerEndCode/src/user.php?type=5",
+			type:"post",
+			dataType:"json",
+			data:{
+				avatar:base64code
+			},
+			success:function(data){
+
+			},
+			error:function(){}
+		})
+  	}
+  	fileReader.readAsDataURL(file);
+
+  	
 }
 </script>
 

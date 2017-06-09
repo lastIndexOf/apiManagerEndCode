@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50612
 File Encoding         : 65001
 
-Date: 2017-06-06 20:12:39
+Date: 2017-06-09 10:36:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -89,6 +89,8 @@ CREATE TABLE `docs` (
   `title` varchar(255) NOT NULL,
   `public_time` datetime NOT NULL,
   `group_id` int(255) NOT NULL,
+  `desc` varchar(255) NOT NULL COMMENT '文档描述',
+  `type` varchar(255) NOT NULL COMMENT '00单人，web\r\n10多人，web',
   PRIMARY KEY (`id`),
   KEY `group_id` (`group_id`),
   CONSTRAINT `docs_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `group` (`id`)
@@ -139,8 +141,8 @@ CREATE TABLE `group_user` (
   PRIMARY KEY (`id`),
   KEY `group_user_ibfk_1` (`groupid`),
   KEY `group_user_ibfk_2` (`userid`),
-  CONSTRAINT `group_user_ibfk_2` FOREIGN KEY (`userid`) REFERENCES `user` (`id`),
-  CONSTRAINT `group_user_ibfk_1` FOREIGN KEY (`groupid`) REFERENCES `group` (`id`)
+  CONSTRAINT `group_user_ibfk_1` FOREIGN KEY (`groupid`) REFERENCES `group` (`id`),
+  CONSTRAINT `group_user_ibfk_2` FOREIGN KEY (`userid`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -178,7 +180,10 @@ CREATE TABLE `note` (
   `content` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `mtitle` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
+  `userid` int(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userid` (`userid`),
+  CONSTRAINT `note_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -196,12 +201,17 @@ CREATE TABLE `user` (
   `email` varchar(50) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `regist_time` datetime NOT NULL,
+  `avatar` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
+INSERT INTO `user` VALUES ('1', 'lyh', '123123', '11343@11.com', '17862700161', '2017-06-07 12:16:02', '/apiManagerEndCode/imgs/avatar/lyh_1496975389.jpeg');
+INSERT INTO `user` VALUES ('2', 'lyh1', '123123', '11343@11.com', '17862700161', '2017-06-07 12:17:27', '/apiManagerEndCode/imgs/avatar/default.jpg');
+INSERT INTO `user` VALUES ('3', 'lyh2', '12312323', '11343@11.com', '17862700161', '2017-06-07 14:13:50', '/apiManagerEndCode/imgs/avatar/default.jpg');
+INSERT INTO `user` VALUES ('4', 'lyh6', '123123121', '11343@111.com', '178627001611', '2017-06-08 03:33:29', '/apiManagerEndCode/imgs/avatar/default.jpg');
 
 -- ----------------------------
 -- Table structure for user_char

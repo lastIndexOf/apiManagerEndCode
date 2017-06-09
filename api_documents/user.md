@@ -55,7 +55,7 @@
 	}
 
 
-### <a name="changeInfo">3.修改信息</a>
+### <a name="changeInfo">3. 修改信息</a>
 
 	post /apiManagerEndCode/src/user.php?type=2
 	
@@ -112,3 +112,19 @@
 			}
 	}
 
+
+### <a name='changeAvatar'>修改头像</a>
+
+	post /apiManagerEndCode/src/user.php?type=5
+
+	request:
+	{
+		avatar:#(头像base64编码)
+	}
+	
+	
+	response:
+	{
+		result:(0|1)#0 修改失败 #1修改成功
+		msg:#(失败信息)
+	}

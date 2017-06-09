@@ -7,6 +7,7 @@
 
 	request:
 	{
+		userid:#(用户id)
 		content:#(备忘录内容)
 		title:#(标题)
 		m_title:#(小标题)

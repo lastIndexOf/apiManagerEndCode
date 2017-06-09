@@ -6,7 +6,7 @@ include $_SERVER['DOCUMENT_ROOT'].'/apiManagerEndCode/src/request.php';
 
 user_operate();
 
-function user_operate(){
+function user_operate() {
 
 	$result = array();
 	session_start(); 
@@ -71,6 +71,8 @@ function user_operate(){
 
 			$result = $datareturn;
 
+
+			echo json_encode($result);
 		}else if ($_GET["type"] == '1'){//登录
 			$username = $_POST['username'];
 			$password = $_POST['password'];
@@ -160,6 +162,8 @@ function user_operate(){
 				$result = $datatemp;
 			}
 
+
+			echo json_encode($result);
 		}else if ($_GET['type']== '2') {
 			$update = "update user set username=?,password=?,email=?,phone=? where id = ?";
 			$mypdo = new MySqlPDO();
@@ -176,11 +180,13 @@ function user_operate(){
 				$datetemp['msg']='更新失败';
 			}
 
+
+			echo json_encode($result);
 		}else if ($_GET['type']=='3') {
 			session_start();
 			unset($_SESSION["id"]);
 			unset($_SESSION["username"]);
-			$result['result']='<p>正在登出...</p><script>setTimeout(function() {window.location.href = '/'}, 1500)</script>';
+			echo '<p>正在登出...</p><script>setTimeout(function() {window.location.href = '/'}, 1500)</script>';
 		}else if ($_GET['type']=='4') {
 			$id =$_POST['id'];
 			$result = array();
@@ -204,12 +210,63 @@ function user_operate(){
 			}else{
 				$result['msg']='尚未登录';
 			}
-		}
-	}else{
-		$result['result']='0';
-		$result['msg']='登录身份不对';
-	}
 
-	echo json_encode($result);
+
+			echo json_encode($result);
+		}else if ($_GET['type']=='5') {
+			$result_temp=array();
+
+			if (isset($_POST['avatar']) && !empty($_POST['avatar']) ) {
+				$image_content = $_POST['avatar'];
+
+				if (isset($_SESSION['id']) && !empty($_SESSION['id']) ) {
+
+					$path = "/apiManagerEndCode/imgs/avatar/".$_SESSION['username'].'_'.time();
+					if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $image_content, $result_img)){
+					  	$type = $result_img[2];
+					  	$path =$path.'.'.$type;
+					  	if (file_put_contents($_SERVER['DOCUMENT_ROOT'].$path, 
+					  		base64_decode(str_replace($result_img[1], '', $image_content)))){
+					  	//更新数据库
+					  		$update_avatar = "update user set avatar=? where id=?";
+					  		$mysqlpdo = new MySqlPDO();
+					  		$mysqlpdo->prepare($update_avatar);
+					  		$myarray = array($path,$_SESSION['id']);
+					  		if ($mysqlpdo->executeArr($myarray)) {
+					  			$result_temp['result']=1;
+
+					  		}else{
+					  			$result_temp['result']=0;
+					  			$result_msg['msg']="数据库更新错误";
+					  		}
+					  	}else{
+					  		$result_temp['result']=0;
+					  			$result_msg['msg']="文件保存错误";
+					  	}
+
+					}else{
+					  		$result_temp['result']=0;
+					  			$result_msg['msg']="发送文件格式错误";
+					  	}
+
+				}else{
+					$result_temp['result']='0';
+					$result_temp['msg']='您还未登录或者登陆身份过期';
+				}
+				
+			}else{
+				$result_temp['result']='0';
+				$result_temp['msg']='请上传头像';
+			}
+			$result = $result_temp;
+			echo json_encode($result);
+		}else{
+			$result['result']='0';
+			$result['msg']='登录身份不对';
+
+			echo json_encode($result);
+		}
+
+	}
 }
 ?>

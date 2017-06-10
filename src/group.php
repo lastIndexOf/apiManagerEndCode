@@ -16,6 +16,9 @@ function group(){
 		case 'DELETE':
 			dodelete($data);
 			break;
+		case 'GET':
+			doget($data);
+			break;
 		
 		default:
 			# code...
@@ -23,6 +26,98 @@ function group(){
 	}
 
 }
+function doget($data){
+	if (isset($data['type']) && !empty($data['type'])) {
+		switch ($data['type']) {
+			case '1':
+				getbyid($data);
+				break;
+			case '2':
+				getbyname($data);
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+	};
+}
+
+function getbyid($data){
+	$groupid = $data['id'];
+	$result = array();
+	$mypdo = new MySqlPDO();
+	$sql = "select count(*) as num from `group` where `id` = ?";
+	$mypdo->prepare($sql);
+	$myarray = array($groupid);
+	if ($mypdo->executeArr($myarray)) {
+		$rs = $mypdo->fetch();
+		$result_num = $rs['num'];
+		if ($result_num >0 ) {
+			$mysql = "select * from `group` where `id`=?";
+			$mypdo->prepare($mysql);
+			$myarray = array($groupid);
+			if ($mypdo->executeArr($myarray)) {
+				$rs = $mypdo->fetch();
+				foreach ($rs as $key => $value) {
+					$result['group'][$key] = $value;
+				}
+
+			}else{
+				$result['result'] = 0;
+				$result['msg']='查询错误数据库错误';
+			}
+		}else{
+			$result['result'] = 0;
+			$result['msg']='查找不到这个组';
+		}
+	}
+}
+
+
+function getbyname($data){
+	$page = $data['page'];
+	$pagesize = $data['pagesize'];
+	$name = $data['name'];
+
+	$begin = ($page-1)*$pagesize;
+
+	$result=array();
+
+	$mysqlpdo= new MySqlPDO();
+	$sql_count = "select count(*) as num from `group` where `name` like '%?%'";
+	
+	$mysqlpdo->prepare($sql_count);
+	$myarray = array($name);
+	if ($mysqlpdo->executeArr($myarray) {
+		$rs_num = $mysqlpdo->fetch();
+		$result_num = $rs_num['num'];
+		if ($result_num>0) {
+			$result['total'] = $result_num;
+			$sql_resultlist = "select * from `group` where `name` like '%?%' limit ?,?";
+			$myarray = array($name,$begin,$pagesize);
+			$mysqlpdo->prepare($sql_resultlist);
+			$result['resultList'] = array();
+			if ($mysqlpdo->executeArr($myarray)) {
+				
+				while($rs_resultlist = $mysqlpdo->fetch()){
+					foreach ($$rs_resultlist as $key => $value) {
+						$temp = array();
+						$temp[$key] = $value;
+					}
+					$result['resultList'][] = $temp;
+				}
+
+			}
+		}else{
+			$result['result']=0;
+			$result['msg']="没有这个名称的组";
+		}
+
+	}
+
+}
+
 function dodelete($data){
 	$result = array();
 	$mypdo= new MySqlPDO();

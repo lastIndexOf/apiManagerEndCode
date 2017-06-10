@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50612
 File Encoding         : 65001
 
-Date: 2017-06-09 16:51:51
+Date: 2017-06-10 22:22:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,6 +26,7 @@ CREATE TABLE `api` (
   `query` varchar(255) NOT NULL,
   `body` varchar(255) NOT NULL,
   `url` varchar(255) NOT NULL,
+  `desc` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `docsid` (`docsid`),
   CONSTRAINT `api_ibfk_1` FOREIGN KEY (`docsid`) REFERENCES `docs` (`id`)
@@ -111,7 +112,7 @@ CREATE TABLE `group` (
   PRIMARY KEY (`id`,`headman`),
   KEY `headman` (`headman`),
   CONSTRAINT `group_ibfk_1` FOREIGN KEY (`headman`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of group
@@ -145,7 +146,7 @@ CREATE TABLE `group_user` (
   KEY `group_user_ibfk_2` (`userid`),
   CONSTRAINT `group_user_ibfk_2` FOREIGN KEY (`userid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `group_user_ibfk_3` FOREIGN KEY (`groupid`) REFERENCES `group` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of group_user
@@ -207,11 +208,12 @@ CREATE TABLE `user` (
   `job` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
+INSERT INTO `user` VALUES ('8', '#(111)', '1111', '13222', '178726', '2017-06-09 08:58:24', '/apiManagerEndCode/imgs/avatar/default.jpg', 'jinglui', 'li');
 
 -- ----------------------------
 -- Table structure for user_char

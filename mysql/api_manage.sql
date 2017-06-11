@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50612
 File Encoding         : 65001
 
-Date: 2017-06-11 21:02:57
+Date: 2017-06-11 21:29:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,11 +22,9 @@ DROP TABLE IF EXISTS `api`;
 CREATE TABLE `api` (
   `id` int(255) NOT NULL,
   `docsid` int(255) NOT NULL,
-  `type` varchar(50) NOT NULL,
-  `query` varchar(255) NOT NULL,
-  `body` varchar(255) NOT NULL,
-  `url` varchar(255) NOT NULL,
-  `desc` varchar(255) NOT NULL,
+  `type` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `url` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `desc` varchar(255) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`),
   KEY `docsid` (`docsid`),
   CONSTRAINT `api_ibfk_1` FOREIGN KEY (`docsid`) REFERENCES `docs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION

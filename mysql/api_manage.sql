@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50612
 File Encoding         : 65001
 
-Date: 2017-06-11 16:13:50
+Date: 2017-06-11 21:02:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -34,6 +34,29 @@ CREATE TABLE `api` (
 
 -- ----------------------------
 -- Records of api
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for api_info
+-- ----------------------------
+DROP TABLE IF EXISTS `api_info`;
+CREATE TABLE `api_info` (
+  `id` int(255) NOT NULL,
+  `key` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `desc` varchar(255) COLLATE utf8_bin NOT NULL,
+  `type` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `rank` int(255) DEFAULT NULL,
+  `parent` int(255) DEFAULT NULL,
+  `api_id` int(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `parent` (`parent`),
+  KEY `api_id` (`api_id`),
+  CONSTRAINT `api_info_ibfk_2` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `api_info_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `api_info` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of api_info
 -- ----------------------------
 
 -- ----------------------------

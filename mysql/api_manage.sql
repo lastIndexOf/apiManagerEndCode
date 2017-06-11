@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50612
 File Encoding         : 65001
 
-Date: 2017-06-11 21:29:39
+Date: 2017-06-11 22:56:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -46,11 +46,12 @@ CREATE TABLE `api_info` (
   `rank` int(255) DEFAULT NULL,
   `parent` int(255) DEFAULT NULL,
   `api_id` int(255) NOT NULL,
+  `required` int(2) NOT NULL COMMENT '0表示false    1表示true',
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`),
   KEY `api_id` (`api_id`),
-  CONSTRAINT `api_info_ibfk_2` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `api_info_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `api_info` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `api_info_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `api_info` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `api_info_ibfk_2` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------

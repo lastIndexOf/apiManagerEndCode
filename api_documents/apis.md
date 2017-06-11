@@ -10,8 +10,7 @@
 		docsid:#(文档id),
 		type:#(请求类型),
 		url:#(请求路径),
-		query:#(query),
-		body:#(body)
+		desc:#(接口描述)
 	}
 
 	response:
@@ -28,10 +27,9 @@
 	request:
 	{
 		apisid:#(api的id),
-		type:#(请求路径),
+		type:#(请求方式),
 		url:#(请求路劲),
-		query:#(query),
-		body:#(body)
+		desc:#(接口描述)
 	}
 	
 	response:
@@ -42,6 +40,7 @@
 
 ###3. <a name='del'>删除API</a>
 
+	//同时用删除APIinfo表中的数据
 	del /apiManagerEndCode/src/apis.php
 	request:
 	{
@@ -70,15 +69,14 @@
 						apisid:#(api的id),
 						type:#(请求路径),
 						url:#(请求路劲),
-						query:#(query),
-						body:#(body)
+						desc:#(接口描述)
+						
 					},
 					{
 						apisid:#(api的id),
 						type:#(请求路径),
 						url:#(请求路劲),
-						query:#(query),
-						body:#(body)
+						desc:#(接口描述)
 					},
 					]
 	}

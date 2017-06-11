@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50612
 File Encoding         : 65001
 
-Date: 2017-06-10 22:22:02
+Date: 2017-06-11 16:13:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,7 +29,7 @@ CREATE TABLE `api` (
   `desc` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `docsid` (`docsid`),
-  CONSTRAINT `api_ibfk_1` FOREIGN KEY (`docsid`) REFERENCES `docs` (`id`)
+  CONSTRAINT `api_ibfk_1` FOREIGN KEY (`docsid`) REFERENCES `docs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -48,12 +48,12 @@ CREATE TABLE `comment` (
   `content` varchar(255) NOT NULL,
   `time` datetime NOT NULL COMMENT '评论时间',
   PRIMARY KEY (`id`),
-  KEY `docsid` (`docsid`),
   KEY `touser` (`touser`),
   KEY `fromuser` (`fromuser`),
-  CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`docsid`) REFERENCES `docs` (`id`),
+  KEY `docsid` (`docsid`),
   CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`touser`) REFERENCES `user` (`id`),
-  CONSTRAINT `comment_ibfk_3` FOREIGN KEY (`fromuser`) REFERENCES `user` (`id`)
+  CONSTRAINT `comment_ibfk_3` FOREIGN KEY (`fromuser`) REFERENCES `user` (`id`),
+  CONSTRAINT `comment_ibfk_4` FOREIGN KEY (`docsid`) REFERENCES `docs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -71,10 +71,10 @@ CREATE TABLE `commit` (
   `content` varchar(255) NOT NULL,
   `userid` int(255) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `docsid` (`docsid`),
   KEY `userid` (`userid`),
-  CONSTRAINT `commit_ibfk_1` FOREIGN KEY (`docsid`) REFERENCES `docs` (`id`),
-  CONSTRAINT `commit_ibfk_2` FOREIGN KEY (`userid`) REFERENCES `user` (`id`)
+  KEY `docsid` (`docsid`),
+  CONSTRAINT `commit_ibfk_2` FOREIGN KEY (`userid`) REFERENCES `user` (`id`),
+  CONSTRAINT `commit_ibfk_3` FOREIGN KEY (`docsid`) REFERENCES `docs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -86,20 +86,23 @@ CREATE TABLE `commit` (
 -- ----------------------------
 DROP TABLE IF EXISTS `docs`;
 CREATE TABLE `docs` (
-  `id` int(255) NOT NULL,
-  `title` varchar(255) NOT NULL,
+  `id` int(255) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8 NOT NULL,
   `public_time` datetime NOT NULL,
   `group_id` int(255) NOT NULL,
-  `desc` varchar(255) NOT NULL COMMENT '文档描述',
+  `desc` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '文档描述',
   `type` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '00单人，web\r\n10多人，web',
   PRIMARY KEY (`id`),
   KEY `group_id` (`group_id`),
   CONSTRAINT `docs_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `group` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of docs
 -- ----------------------------
+INSERT INTO `docs` VALUES ('1', '标题', '2017-06-10 15:26:38', '3', '描述', '01');
+INSERT INTO `docs` VALUES ('2', '文档标题', '2017-06-10 15:26:51', '3', '文档描述', '00');
+INSERT INTO `docs` VALUES ('4', '文档标题', '2017-06-10 16:26:13', '2', '文档描述', '00');
 
 -- ----------------------------
 -- Table structure for group
@@ -107,16 +110,19 @@ CREATE TABLE `docs` (
 DROP TABLE IF EXISTS `group`;
 CREATE TABLE `group` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8 NOT NULL,
   `headman` int(255) NOT NULL,
   PRIMARY KEY (`id`,`headman`),
   KEY `headman` (`headman`),
   CONSTRAINT `group_ibfk_1` FOREIGN KEY (`headman`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of group
 -- ----------------------------
+INSERT INTO `group` VALUES ('1', '您好', '8');
+INSERT INTO `group` VALUES ('2', '你好1', '8');
+INSERT INTO `group` VALUES ('3', '好', '8');
 
 -- ----------------------------
 -- Table structure for group_chat
@@ -141,6 +147,7 @@ CREATE TABLE `group_user` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `groupid` int(255) NOT NULL,
   `userid` int(255) NOT NULL,
+  `time` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `group_user_ibfk_3` (`groupid`),
   KEY `group_user_ibfk_2` (`userid`),

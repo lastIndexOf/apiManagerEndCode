@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<meta charset="utf-8">
 <head>
 	<title>test</title>
 </head>
@@ -18,6 +19,16 @@
 <button onclick="testupdategroup()">updateGroup</button>
 
 <button onclick="testdeletegroup()">deleteGroup</button>
+
+<button onclick="testgetgroupById()">testgetgroupById</button>
+
+<button onclick="testgetgroupByName()">testgetgroupByName</button><br><br>
+
+<button onclick="testadddocs()">testadddocs</button>
+
+<button onclick="testquerydocs()">testquery_docs</button>
+
+<button onclick="testupdatedocs()">testupdate_docs</button>
 <form>
 
 	<input type="file" name="touxiang" id="touxiang" onchange="testtype5()">
@@ -28,6 +39,84 @@
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
+function testupdatedocs(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/docs.php",
+		type:"put",
+		dataType:"json",
+		data:{
+				docsid:1,
+				title:"标题",
+				desc:"描述",
+				type:"01"
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+function testquerydocs(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/docs.php",
+		type:"get",
+		dataType:"json",
+		data:{
+			page:'1',
+			pagesize:'6',
+			groupid:'6'
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+
+function testadddocs(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/docs.php",
+		type:"post",
+		dataType:"json",
+		data:{
+			type:"00",
+			desc:"文档描述",
+			title:"文档标题",
+			groupid:'2'
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+
+function testgetgroupById(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/group.php",
+		type:"get",
+		dataType:"json",
+		data:{
+			type:1,
+			id:1
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+
+function testgetgroupByName(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/group.php",
+		type:"get",
+		dataType:"json",
+		data:{
+			type:2,
+			page:1,
+			pagesize:2,
+			name:'好'
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+
+
+
 
 function testchange(){
 	$.ajax({

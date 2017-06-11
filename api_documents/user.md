@@ -1,13 +1,17 @@
 #user
 ##
 
-###1. regist [注册](#regsit)
+1. regist [注册](#regsit)
 
-###2. login [登录](#login)
+2. login [登录](#login)
 
-###3. changeInfo [修改信息](#changeInfo)
+3. changeInfo [修改信息](#changeInfo)
 
-###4. exitLogin [退出登录](#exitLogin)
+4. exitLogin [退出登录](#exitLogin)
+
+5. getinfo [获取信息](#getinfo)
+
+6. changeAvatar [修改头像](#changeAvatar)
 ##
 
 ### <a name="regist">1.注册用户</a>
@@ -115,7 +119,7 @@
 	}
 
 
-### <a name='changeAvatar'>修改头像</a>
+### <a name='changeAvatar'>6.修改头像</a>
 
 	post /apiManagerEndCode/src/user.php?type=5
 

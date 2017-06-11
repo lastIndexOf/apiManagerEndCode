@@ -72,37 +72,43 @@ function getbyid($data){
 			$result['msg']='查找不到这个组';
 		}
 	}
+	echo json_encode($result);
 }
 
 
 function getbyname($data){
 	$page = $data['page'];
 	$pagesize = $data['pagesize'];
-	$name = $data['name'];
+	$name = '%'.$data['name'].'%';
 
 	$begin = ($page-1)*$pagesize;
 
 	$result=array();
 
 	$mysqlpdo= new MySqlPDO();
-	$sql_count = "select count(*) as num from `group` where `name` like '%?%'";
+	$sql_count = "select count(*) as num from `group` where `name` like ?";
 	
 	$mysqlpdo->prepare($sql_count);
 	$myarray = array($name);
-	if ($mysqlpdo->executeArr($myarray) {
+	if ($mysqlpdo->executeArr($myarray)) {
 		$rs_num = $mysqlpdo->fetch();
 		$result_num = $rs_num['num'];
 		if ($result_num>0) {
+
+			if ($result_num<$pagesize) {
+				$pagesize = $result_num; 
+			}
 			$result['total'] = $result_num;
-			$sql_resultlist = "select * from `group` where `name` like '%?%' limit ?,?";
-			$myarray = array($name,$begin,$pagesize);
+			$sql_resultlist = "select * from `group` where `name` like ? limit $begin,$pagesize";
+			$myarray = array($name);
 			$mysqlpdo->prepare($sql_resultlist);
 			$result['resultList'] = array();
 			if ($mysqlpdo->executeArr($myarray)) {
 				
 				while($rs_resultlist = $mysqlpdo->fetch()){
-					foreach ($$rs_resultlist as $key => $value) {
-						$temp = array();
+					$temp = array();
+					foreach ($rs_resultlist as $key => $value) {
+						
 						$temp[$key] = $value;
 					}
 					$result['resultList'][] = $temp;
@@ -115,6 +121,7 @@ function getbyname($data){
 		}
 
 	}
+	echo json_encode($result);
 
 }
 

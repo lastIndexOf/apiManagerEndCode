@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50612
 File Encoding         : 65001
 
-Date: 2017-06-11 22:56:00
+Date: 2017-06-12 21:35:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,7 +20,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `api`;
 CREATE TABLE `api` (
-  `id` int(255) NOT NULL,
+  `id` int(255) NOT NULL AUTO_INCREMENT,
   `docsid` int(255) NOT NULL,
   `type` varchar(50) CHARACTER SET utf8 NOT NULL,
   `url` varchar(255) CHARACTER SET utf8 NOT NULL,
@@ -28,35 +28,40 @@ CREATE TABLE `api` (
   PRIMARY KEY (`id`),
   KEY `docsid` (`docsid`),
   CONSTRAINT `api_ibfk_1` FOREIGN KEY (`docsid`) REFERENCES `docs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of api
 -- ----------------------------
+INSERT INTO `api` VALUES ('1', '1', 'put', '/apiManagerEndCode/src/apis.php', '描述222');
+INSERT INTO `api` VALUES ('2', '1', 'post', '/apiManagerEndCode/src/apis.php', '描述');
 
 -- ----------------------------
 -- Table structure for api_info
 -- ----------------------------
 DROP TABLE IF EXISTS `api_info`;
 CREATE TABLE `api_info` (
-  `id` int(255) NOT NULL,
+  `id` int(255) NOT NULL AUTO_INCREMENT,
   `key` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `desc` varchar(255) COLLATE utf8_bin NOT NULL,
   `type` varchar(20) COLLATE utf8_bin DEFAULT NULL,
-  `rank` int(255) DEFAULT NULL,
+  `rank` int(255) DEFAULT NULL COMMENT '0表好第一级别，  \r\n1是他的子级别，，，，',
   `parent` int(255) DEFAULT NULL,
   `api_id` int(255) NOT NULL,
   `required` int(2) NOT NULL COMMENT '0表示false    1表示true',
   PRIMARY KEY (`id`),
-  KEY `parent` (`parent`),
   KEY `api_id` (`api_id`),
-  CONSTRAINT `api_info_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `api_info` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `api_info_ibfk_2` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  KEY `parent` (`parent`),
+  CONSTRAINT `api_info_ibfk_3` FOREIGN KEY (`parent`) REFERENCES `api_info` (`id`),
+  CONSTRAINT `api_info_ibfk_2` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of api_info
 -- ----------------------------
+INSERT INTO `api_info` VALUES ('7', '1', '2', '3', '0', null, '1', '0');
+INSERT INTO `api_info` VALUES ('8', '21', '22', '23', '1', '7', '1', '1');
+INSERT INTO `api_info` VALUES ('9', '31', '32', '33', '2', '8', '1', '0');
 
 -- ----------------------------
 -- Table structure for comment
@@ -92,6 +97,7 @@ CREATE TABLE `commit` (
   `docsid` int(255) NOT NULL,
   `content` varchar(255) NOT NULL,
   `userid` int(255) NOT NULL,
+  `preview` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`),
   KEY `docsid` (`docsid`),
@@ -151,9 +157,10 @@ INSERT INTO `group` VALUES ('3', '好', '8');
 -- ----------------------------
 DROP TABLE IF EXISTS `group_chat`;
 CREATE TABLE `group_chat` (
-  `user_group_id` int(11) NOT NULL,
-  `content` varchar(255) NOT NULL,
+  `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `time` datetime NOT NULL,
+  `user_id` int(255) NOT NULL,
+  `group_id` int(255) DEFAULT NULL,
   PRIMARY KEY (`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -194,8 +201,8 @@ CREATE TABLE `log` (
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`),
   KEY `api_id` (`api_id`),
-  CONSTRAINT `log_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `log_ibfk_2` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `log_ibfk_2` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`),
+  CONSTRAINT `log_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -207,12 +214,13 @@ CREATE TABLE `log` (
 -- ----------------------------
 DROP TABLE IF EXISTS `note`;
 CREATE TABLE `note` (
-  `id` int(255) NOT NULL,
+  `id` int(255) NOT NULL AUTO_INCREMENT,
   `time` datetime NOT NULL,
   `content` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `mtitle` varchar(255) NOT NULL,
   `userid` int(255) NOT NULL,
+  `preview` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`),
   CONSTRAINT `note_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -221,6 +229,27 @@ CREATE TABLE `note` (
 -- ----------------------------
 -- Records of note
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for request_head
+-- ----------------------------
+DROP TABLE IF EXISTS `request_head`;
+CREATE TABLE `request_head` (
+  `id` int(255) NOT NULL AUTO_INCREMENT,
+  `head` varchar(255) COLLATE utf8_bin NOT NULL,
+  `api_id` int(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `api_id` (`api_id`),
+  CONSTRAINT `request_head_ibfk_1` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of request_head
+-- ----------------------------
+INSERT INTO `request_head` VALUES ('5', '1111', '1');
+INSERT INTO `request_head` VALUES ('6', '2222', '1');
+INSERT INTO `request_head` VALUES ('7', '3333', '1');
+INSERT INTO `request_head` VALUES ('8', 'head2', '1');
 
 -- ----------------------------
 -- Table structure for user
@@ -236,13 +265,14 @@ CREATE TABLE `user` (
   `avatar` varchar(255) NOT NULL,
   `job` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
+  `logouttime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('8', '#(111)', '1111', '13222', '178726', '2017-06-09 08:58:24', '/apiManagerEndCode/imgs/avatar/default.jpg', 'jinglui', 'li');
+INSERT INTO `user` VALUES ('8', '#(111)', '1111', '13222', '178726', '2017-06-09 08:58:24', '/apiManagerEndCode/imgs/avatar/default.jpg', 'jinglui', 'li', null);
 
 -- ----------------------------
 -- Table structure for user_char

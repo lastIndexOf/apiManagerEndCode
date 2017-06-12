@@ -29,16 +29,217 @@
 <button onclick="testquerydocs()">testquery_docs</button>
 
 <button onclick="testupdatedocs()">testupdate_docs</button>
-<form>
+
+<button onclick="testaddapis()">testadd_apis</button>
+
+<button onclick="testupdateapis()">testupdate_apis</button>
+
+<button onclick="testadd_apiinfo()">testadd_apiinfo</button>
+
+<button onclick="testadd_request_head()">testadd_request_head</button>
+
+<button onclick="testdeleteByApiId()">testdeleteByApiId</button>
+
+<button onclick="testdeleteByHeadId()">testdeleteByHeadId</button>
+
+<button onclick="testupdateHead()">testupdateHead</button><br><br>
+
+
+<button onclick="testgetHeadByAPIIid()">testgetHeadByAPIIid</button>
+
+
+<button onclick="testgetHeadByHeadIid()">testgetHeadByHeadIid</button>
+<br><br><form>
 
 	<input type="file" name="touxiang" id="touxiang" onchange="testtype5()">
-	<button ></button>
 	
 </form>
 
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
+function testgetHeadByHeadIid(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/request_head.php",
+		type:"get",
+		dataType:"json",
+		data:{
+			type:"2",
+			head_id:"7"
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+
+
+
+function testgetHeadByAPIIid(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/request_head.php",
+		type:"get",
+		dataType:"json",
+		data:{
+			type:"1",
+			api_id:"1"
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+function testupdateHead(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/request_head.php",
+		type:"put",
+		dataType:"json",
+		data:{
+			heads:[
+				{
+					id:"5",
+					head:"1111"
+				},
+				{
+					id:"6",
+					head:"2222"
+				},
+				{
+					id:"7",
+					head:"3333"
+				}
+			]
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+
+
+function testdeleteByApiId(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/request_head.php",
+		type:"delete",
+		dataType:"json",
+		data:{
+				type:"1",
+				api_id:1
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+function testdeleteByHeadId(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/request_head.php",
+		type:"delete",
+		dataType:"json",
+		data:{
+				type:"2",
+				head_id:1
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+
+
+function testadd_request_head(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/request_head.php",
+		type:"post",
+		dataType:"json",
+		data:{
+			heads:[{
+					head:"head1",
+					api_id:1
+				},
+				{
+					head:"head2",
+					api_id:1
+				}
+
+			]
+	
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+
+
+
+function testadd_apiinfo(){
+		$.ajax({
+		url:"/apiManagerEndCode/src/api_info.php",
+		type:"post",
+		dataType:"json",
+		data:{
+			api_id:'1',
+			key:'1',
+			desc:'2',
+			type:'3',
+			required:0,
+			child:{
+				api_id:'1',
+				key:'21',
+				desc:'22',
+				type:'23',
+				required:1,
+				child:{
+					api_id:'1',
+					key:'31',
+					desc:'32',
+					type:'33',
+					required:0,
+				}
+			}
+	
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+
+
+function testupdateapis(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/apis.php",
+		type:"put",
+		dataType:"json",
+		data:{
+				apisid:1,
+				url:"/apiManagerEndCode/src/apis.php",
+				desc:"描述222",
+				type:"put"
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+
+
+
+
+
+
+
+
+function testaddapis(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/apis.php",
+		type:"post",
+		dataType:"json",
+		data:{
+				docsid:1,
+				url:"/apiManagerEndCode/src/apis.php",
+				desc:"描述",
+				type:"post"
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+
+
 function testupdatedocs(){
 	$.ajax({
 		url:"/apiManagerEndCode/src/docs.php",

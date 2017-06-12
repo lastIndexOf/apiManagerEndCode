@@ -11,7 +11,7 @@ function api(){
 			dopost($data);
 			break;
 		case 'PUT':
-		doput($data);
+			doput($data);
 			break;
 		
 		default:
@@ -27,7 +27,7 @@ function doput($data){//不能修改文档 API的id
 	$desc = $data['desc'];
 	$result = array();
 	if( isset($apisid) && isset($type) && isset($url) && isset($desc) )  {
-		$update = "update api set desc=?,type=?,url=? where id = ?";
+		$update = "update `api` set `desc`=?,`type`=?,`url`=? where `id` = ?";
 		$mysqlpdo = new MySqlPDO();
 		$myarray = array($desc,$type,$url,$apisid);
 		$mysqlpdo->prepare($update);
@@ -42,7 +42,7 @@ function doput($data){//不能修改文档 API的id
 		$result['result'] = '0';
 		$result['msg'] = '传送数据有空，错误';
 	}
-
+	echo json_encode($result);
 
 }
 
@@ -54,7 +54,7 @@ function dopost($data){
 	$result = array();
 
 	if (isset($docsid) && isset($type) && isset($url) && isset($desc) ) {
-		$insert_sql = "insert into api (docsid,type,url,desc) values(?,?,?,?)";
+		$insert_sql = "insert into `api` (`docsid`,`type`,`url`,`desc`) values(?,?,?,?)";
 		$mysqlpdo = new MySqlPDO();
 		$myarray = array($docsid,$type,$url,$desc);
 		$mysqlpdo->prepare($insert_sql);
@@ -71,6 +71,7 @@ function dopost($data){
 		$result['result'] = '0';
 		$result['msg'] = '传送数据有空，错误';
 	}
+	echo json_encode($result);
 }
 
 ?>

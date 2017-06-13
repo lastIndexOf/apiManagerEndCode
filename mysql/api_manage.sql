@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50612
 File Encoding         : 65001
 
-Date: 2017-06-13 21:32:44
+Date: 2017-06-13 22:15:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -253,6 +253,7 @@ CREATE TABLE `request_head` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `head` varchar(255) COLLATE utf8_bin NOT NULL,
   `api_id` int(255) NOT NULL,
+  `name` varchar(255) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
   KEY `api_id` (`api_id`),
   CONSTRAINT `request_head_ibfk_1` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`)

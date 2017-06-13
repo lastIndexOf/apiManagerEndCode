@@ -38,6 +38,9 @@ function doget($data){
 			case '3':
 				getallGroup($data);
 				break;
+			case '4':
+				getuserBygroupid($data);
+				break;
 			
 			default:
 				# code...
@@ -45,6 +48,54 @@ function doget($data){
 		}
 	};
 }
+function getuserBygroupid($data){
+	if (isset($data['groupid'])) {
+		$groupid = $data['groupid'];
+		$select_userarray= "select distinct `userid` from `group_user` where `groupid` = ?";
+		$agroupid = array($groupid);
+		$mysqlpdo = new MySqlPDO();
+		$array_group = array();
+		$mysqlpdo->prepare($select_userarray);
+		if ($mysqlpdo->executeArr($agroupid)) {
+			while ($rs = $mysqlpdo->fetch()) {
+				$array_group[] = $rs['userid'];
+			}
+			if (count($array_group)>0) {
+				$select_list = "select * from `user` where id in (";
+				for ($i=0; $i < count($array_group); $i++) { 
+					$select_list = $select_list."?,";
+				}
+				$select_list= substr($select_list,0,strlen($select_list)-1);
+				$select_list =$select_list.")";
+				$mysqlpdo->prepare($select_list);
+
+				if ($mysqlpdo->executeArr($array_group)) {
+					$result['resultList'] = array();
+					while ($rs = $mysqlpdo->fetch()) {
+						$temp = array();
+						foreach ($rs as $key => $value) {
+							if ($key=='password') {
+								$temp[$key] = "*********密文"; 
+							}else{	
+								$temp[$key] = $value; 
+							}
+						}
+						$result['resultList'][] = $temp;
+					}
+				}
+			}else{
+				$result['result']="0";
+				$result['msg'] ="这个组没有任何成员";
+			}
+			
+		}
+	}
+
+	echo json_encode($result);
+}
+
+
+
 function getallGroup($data){
 	$page = $data['page'];
 	$pagesize = $data['pagesize'];

@@ -51,6 +51,8 @@
 <button onclick="testgetHeadByHeadIid()">testgetHeadByHeadIid</button>
 
 <button onclick="testgetallGroup()">testgetallGroup</button>
+
+<button onclick="getuserBygroupid()">getuserBygroupid</button>
 <br><br><form>
 
 	<input type="file" name="touxiang" id="touxiang" onchange="testtype5()">
@@ -60,6 +62,21 @@
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
+
+function getuserBygroupid(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/group.php",
+		type:"get",
+		dataType:"json",
+		data:{
+			type:"4",
+			groupid:'15'
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+
 
 function testgetallGroup(){
 	$.ajax({

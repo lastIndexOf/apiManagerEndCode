@@ -1,7 +1,9 @@
 #comment
 ##
 ###1. [增加评论](#addcomment)
+
 	
+	post  /apiManagerEndCode/src/comment.php
 	1.<a name='addcomment'>增加评论</a>
 	request:
 	{

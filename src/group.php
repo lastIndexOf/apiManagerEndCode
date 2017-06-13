@@ -35,6 +35,9 @@ function doget($data){
 			case '2':
 				getbyname($data);
 				break;
+			case '3':
+				getallGroup($data);
+				break;
 			
 			default:
 				# code...
@@ -42,6 +45,42 @@ function doget($data){
 		}
 	};
 }
+function getallGroup($data){
+	$page = $data['page'];
+	$pagesize = $data['pagesize'];
+	$begin  = ($page-1)*$pagesize;
+	$mysqlpdo = new MySqlPDO();
+	$select_count = "select count(*) as num from `group_user` where `userid` = ?";
+	$myarray = array($_SESSION['id']);
+	$mysqlpdo->prepare($select_count);
+	if ($mysqppdo->executeArr($myarray)) {
+		$rs = $mysqlpdo->fetch();
+		if ($rs['num']>0) {
+			$select_list = "select * from `group_user` where `userid` =? limit $begin,$pageszie";
+			$myarray = array($_SESSION['id']);
+			$mysqlpdo->prepare($select_list);
+			$result['resultList'] = array();
+			if ($mysqlpdo->executeArr($myarray)) {
+				while ($rs = $mysqlpdo->fetch()) {
+					$temp = array();
+					foreach ($rs as $key => $value) {
+						$temp[$key] = $value;
+					}
+					$result['resultList'][] = $temp;
+				}
+				$result['result'] = '1';
+			}
+
+		}else{
+			$result['result']=0;
+			$result['msg']="您还没有加入任何群组";
+		}
+	}
+	echo json_encode($result);
+
+}
+
+
 
 function getbyid($data){
 	$groupid = $data['id'];
@@ -203,7 +242,12 @@ function dopost($data){
 		}
 		$insert_sql =substr($insert_sql,0,strlen($insert_sql)-1);
 		$mypdo->prepare($insert_sql);
-		$mypdo->executeArr($myarray);
+		if ($mypdo->executeArr($myarray)) {
+			$result['result']='1';
+		}else{
+			$result['result']='0';
+			$result['msg']="插入数据错误";
+		}
 	}
 	echo json_encode($result);
 }

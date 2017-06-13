@@ -4,7 +4,7 @@
 ###1. [增加提交数据信息](#addcommit)
 
 
-1.<a name='addcommit'>增加提交数据</a>
+1.<a name='addcommit'>增加提	交数据</a>
 
 	post /apiManagerEndCode/src/commit.php
 	request:

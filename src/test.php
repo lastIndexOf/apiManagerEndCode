@@ -398,8 +398,8 @@ function testget(){
 		dataType:"json",
 		data:{
 			type:'0',
-			username:"11111",
-			password:"1111",
+			username:"lyh11111",
+			password:"123123121111",
 		},
 		success:function(data){
 
@@ -472,7 +472,7 @@ function testaddgroup(){
 			type:"post",
 			dataType:"json",
 			data:{
-				ids:"1+2+3+4",
+				ids:"8",
 				name:"1111"
 			},
 			success:function(data){

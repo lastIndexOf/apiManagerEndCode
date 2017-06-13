@@ -53,6 +53,11 @@
 <button onclick="testgetallGroup()">testgetallGroup</button>
 
 <button onclick="getuserBygroupid()">getuserBygroupid</button>
+
+<button onclick="testaddComment()">testaddComment</button>
+
+<button onclick="testgetComment()">testgetComment</button>
+
 <br><br><form>
 
 	<input type="file" name="touxiang" id="touxiang" onchange="testtype5()">
@@ -62,7 +67,39 @@
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
+function testgetComment(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/comment.php",
+		type:"get",
+		dataType:"json",
+		data:{
+			docsid:"1",
+			page:"1",
+			pagesize:"10"
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
 
+
+
+function testaddComment(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/comment.php",
+		type:"post",
+		dataType:"json",
+		data:{
+			docsid:"1",
+			content:"您好",
+			preview:"年后",
+			from:"8",
+			comment_id:"3"
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
 function getuserBygroupid(){
 	$.ajax({
 		url:"/apiManagerEndCode/src/group.php",

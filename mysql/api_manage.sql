@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50612
 File Encoding         : 65001
 
-Date: 2017-06-12 21:35:32
+Date: 2017-06-13 21:32:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,13 +28,11 @@ CREATE TABLE `api` (
   PRIMARY KEY (`id`),
   KEY `docsid` (`docsid`),
   CONSTRAINT `api_ibfk_1` FOREIGN KEY (`docsid`) REFERENCES `docs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of api
 -- ----------------------------
-INSERT INTO `api` VALUES ('1', '1', 'put', '/apiManagerEndCode/src/apis.php', '描述222');
-INSERT INTO `api` VALUES ('2', '1', 'post', '/apiManagerEndCode/src/apis.php', '描述');
 
 -- ----------------------------
 -- Table structure for api_info
@@ -52,40 +50,41 @@ CREATE TABLE `api_info` (
   PRIMARY KEY (`id`),
   KEY `api_id` (`api_id`),
   KEY `parent` (`parent`),
-  CONSTRAINT `api_info_ibfk_3` FOREIGN KEY (`parent`) REFERENCES `api_info` (`id`),
-  CONSTRAINT `api_info_ibfk_2` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  CONSTRAINT `api_info_ibfk_2` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`),
+  CONSTRAINT `api_info_ibfk_3` FOREIGN KEY (`parent`) REFERENCES `api_info` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of api_info
 -- ----------------------------
-INSERT INTO `api_info` VALUES ('7', '1', '2', '3', '0', null, '1', '0');
-INSERT INTO `api_info` VALUES ('8', '21', '22', '23', '1', '7', '1', '1');
-INSERT INTO `api_info` VALUES ('9', '31', '32', '33', '2', '8', '1', '0');
 
 -- ----------------------------
 -- Table structure for comment
 -- ----------------------------
 DROP TABLE IF EXISTS `comment`;
 CREATE TABLE `comment` (
-  `id` int(255) NOT NULL,
+  `id` int(255) NOT NULL AUTO_INCREMENT,
   `docsid` int(255) NOT NULL,
-  `touser` int(255) NOT NULL,
+  `comment_id` int(255) DEFAULT NULL,
   `fromuser` int(255) NOT NULL,
-  `content` varchar(255) NOT NULL,
+  `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `time` datetime NOT NULL COMMENT '评论时间',
+  `preview` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `touser` (`touser`),
   KEY `fromuser` (`fromuser`),
   KEY `docsid` (`docsid`),
-  CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`touser`) REFERENCES `user` (`id`),
+  KEY `comment_ibfk_2` (`comment_id`),
+  CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`comment_id`) REFERENCES `comment` (`id`),
   CONSTRAINT `comment_ibfk_3` FOREIGN KEY (`fromuser`) REFERENCES `user` (`id`),
   CONSTRAINT `comment_ibfk_4` FOREIGN KEY (`docsid`) REFERENCES `docs` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of comment
 -- ----------------------------
+INSERT INTO `comment` VALUES ('3', '1', null, '8', '您好', '0000-00-00 00:00:00', '年后');
+INSERT INTO `comment` VALUES ('4', '1', null, '8', '您好', '2017-06-13 12:08:22', '年后');
+INSERT INTO `comment` VALUES ('6', '1', '3', '8', '您好', '2017-06-13 12:12:51', '年后');
 
 -- ----------------------------
 -- Table structure for commit
@@ -123,14 +122,12 @@ CREATE TABLE `docs` (
   PRIMARY KEY (`id`),
   KEY `group_id` (`group_id`),
   CONSTRAINT `docs_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `group` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of docs
 -- ----------------------------
-INSERT INTO `docs` VALUES ('1', '标题', '2017-06-10 15:26:38', '3', '描述', '01');
-INSERT INTO `docs` VALUES ('2', '文档标题', '2017-06-10 15:26:51', '3', '文档描述', '00');
-INSERT INTO `docs` VALUES ('4', '文档标题', '2017-06-10 16:26:13', '2', '文档描述', '00');
+INSERT INTO `docs` VALUES ('1', 'title', '2017-06-02 19:58:52', '8', 'desc', '00');
 
 -- ----------------------------
 -- Table structure for group
@@ -143,14 +140,23 @@ CREATE TABLE `group` (
   PRIMARY KEY (`id`,`headman`),
   KEY `headman` (`headman`),
   CONSTRAINT `group_ibfk_1` FOREIGN KEY (`headman`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of group
 -- ----------------------------
-INSERT INTO `group` VALUES ('1', '您好', '8');
-INSERT INTO `group` VALUES ('2', '你好1', '8');
-INSERT INTO `group` VALUES ('3', '好', '8');
+INSERT INTO `group` VALUES ('6', '1111', '9');
+INSERT INTO `group` VALUES ('7', '1111', '9');
+INSERT INTO `group` VALUES ('8', '1111', '8');
+INSERT INTO `group` VALUES ('9', '1111', '9');
+INSERT INTO `group` VALUES ('10', '1111', '8');
+INSERT INTO `group` VALUES ('11', '1111', '9');
+INSERT INTO `group` VALUES ('12', '1111', '8');
+INSERT INTO `group` VALUES ('13', '1111', '8');
+INSERT INTO `group` VALUES ('14', '1111', '8');
+INSERT INTO `group` VALUES ('15', '1111', '9');
+INSERT INTO `group` VALUES ('16', '1111', '9');
+INSERT INTO `group` VALUES ('17', '1111', '9');
 
 -- ----------------------------
 -- Table structure for group_chat
@@ -178,15 +184,24 @@ CREATE TABLE `group_user` (
   `userid` int(255) NOT NULL,
   `time` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `group_user_ibfk_3` (`groupid`),
   KEY `group_user_ibfk_2` (`userid`),
-  CONSTRAINT `group_user_ibfk_2` FOREIGN KEY (`userid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `group_user_ibfk_3` FOREIGN KEY (`groupid`) REFERENCES `group` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `group_user_ibfk_3` (`groupid`),
+  CONSTRAINT `group_user_ibfk_2` FOREIGN KEY (`userid`) REFERENCES `user` (`id`),
+  CONSTRAINT `group_user_ibfk_3` FOREIGN KEY (`groupid`) REFERENCES `group` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of group_user
 -- ----------------------------
+INSERT INTO `group_user` VALUES ('10', '11', '8', '2017-06-13 12:03:44');
+INSERT INTO `group_user` VALUES ('11', '12', '8', '2017-06-13 15:52:57');
+INSERT INTO `group_user` VALUES ('12', '13', '8', '2017-06-13 15:53:07');
+INSERT INTO `group_user` VALUES ('13', '15', '9', '2017-06-13 15:53:08');
+INSERT INTO `group_user` VALUES ('14', '15', '9', '2017-06-13 15:53:08');
+INSERT INTO `group_user` VALUES ('15', '16', '9', '2017-06-13 15:53:08');
+INSERT INTO `group_user` VALUES ('16', '17', '9', '2017-06-13 15:55:23');
+INSERT INTO `group_user` VALUES ('17', '9', '9', '2017-06-13 16:20:27');
+INSERT INTO `group_user` VALUES ('18', '8', '9', '2017-06-13 16:20:38');
 
 -- ----------------------------
 -- Table structure for log
@@ -201,8 +216,8 @@ CREATE TABLE `log` (
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`),
   KEY `api_id` (`api_id`),
-  CONSTRAINT `log_ibfk_2` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`),
-  CONSTRAINT `log_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `log_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `log_ibfk_2` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -241,15 +256,28 @@ CREATE TABLE `request_head` (
   PRIMARY KEY (`id`),
   KEY `api_id` (`api_id`),
   CONSTRAINT `request_head_ibfk_1` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of request_head
 -- ----------------------------
-INSERT INTO `request_head` VALUES ('5', '1111', '1');
-INSERT INTO `request_head` VALUES ('6', '2222', '1');
-INSERT INTO `request_head` VALUES ('7', '3333', '1');
-INSERT INTO `request_head` VALUES ('8', 'head2', '1');
+
+-- ----------------------------
+-- Table structure for response_api
+-- ----------------------------
+DROP TABLE IF EXISTS `response_api`;
+CREATE TABLE `response_api` (
+  `id` int(255) NOT NULL AUTO_INCREMENT,
+  `desc` varchar(255) COLLATE utf8_bin NOT NULL,
+  `api_id` int(255) NOT NULL,
+  `required` int(255) NOT NULL COMMENT '0表示不必要，1表示必要',
+  `param` varchar(255) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of response_api
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for user
@@ -267,12 +295,13 @@ CREATE TABLE `user` (
   `name` varchar(255) DEFAULT NULL,
   `logouttime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('8', '#(111)', '1111', '13222', '178726', '2017-06-09 08:58:24', '/apiManagerEndCode/imgs/avatar/default.jpg', 'jinglui', 'li', null);
+INSERT INTO `user` VALUES ('9', 'lyh11111', '123123121111', '11343@1111111.com', '1786270111101611', '2017-06-13 03:04:31', '/apiManagerEndCode/imgs/avatar/default.jpg', null, null, null);
 
 -- ----------------------------
 -- Table structure for user_char

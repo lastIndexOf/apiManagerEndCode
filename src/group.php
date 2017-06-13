@@ -173,6 +173,12 @@ function dodelete($data){
 function dopost($data){
 
 	$result = array();
+	if (!isset($data['ids']) || !isset($data['name'])) {
+		 $result["result"] = '0';
+		 $result['msg'] ="数据传输错误";
+		echo json_encode($result);
+		return;
+	}
 	$ids = explode("+",$data['ids']);
 	$name = $data['name'];
 	$mypdo= new MySqlPDO();
@@ -186,13 +192,14 @@ function dopost($data){
 		$lastid = $mypdo->lastInsertId();
 		$result['result']='1';
 		$result['id'] = $lastid;
-
-		$insert_sql = "insert into group_user (groupid,userid) values ";
+		$time = date('Y-m-d H:i:s');
+		$insert_sql = "insert into group_user (groupid,userid,time) values ";
 		$myarray = array();
 		for ($i=0; $i < count($ids); $i++) { 
-			$insert_sql = $insert_sql."(?,?),";
+			$insert_sql = $insert_sql."(?,?,?),";
 			$myarray[] = $lastid;
 			$myarray[] = $ids[$i];
+			$myarray[] = $time;
 		}
 		$insert_sql =substr($insert_sql,0,strlen($insert_sql)-1);
 		$mypdo->prepare($insert_sql);

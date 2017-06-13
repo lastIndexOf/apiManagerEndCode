@@ -113,3 +113,66 @@
 				  ]
 	}
 
+##
+	3. 根据用户id组
+	get /apiManagerEndCode/src/group.php
+	request:
+	{
+		type:3
+		page:(页数),
+		pagesize:(页大小),
+	}
+	response：
+	{	
+		result:(0|1)0 查找失败，1查找成功
+		msg:(错误信息)
+		total:总数
+		resultList:[
+						{
+							id:#(group id),
+							name:#(group name),
+							headman:#(组长)
+						},
+						{
+							id:#(group id),
+							name:#(group name),
+							headman:#(组长)
+					   	}
+				  ]
+	}
+
+	4. 根据groupid获取该组全部组员
+
+	get /apiManagerEndCode/src/group.php
+	request:
+	{
+		type:4
+		groupid:
+	}
+	response：
+	{	
+		result:(0|1)0 查找失败，1查找成功
+		msg:(错误信息)
+		resultList:[
+						{
+							id:#(user id),
+							name:#(user name),
+							username:
+							job:
+							avatar:
+							phone:
+							email:
+						},
+						{
+							id:#(user id),
+							name:#(user name),
+							username:
+							job:
+							avatar:
+							phone:
+							email:
+					   	}
+				  ]
+	}
+
+

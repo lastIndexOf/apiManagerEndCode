@@ -97,7 +97,6 @@ function analyze_data($data){
 	global $json_to_array;
 	$json_to_array[] = $array_row;
 	
-
 }
 
 

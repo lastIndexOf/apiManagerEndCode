@@ -19,7 +19,7 @@ function group(){
 		case 'GET':
 			doget($data);
 			break;
-		
+
 		default:
 			# code...
 			break;
@@ -35,7 +35,7 @@ function doget($data){
 			case '2':
 				getbyname($data);
 				break;
-			
+
 			default:
 				# code...
 				break;
@@ -87,7 +87,7 @@ function getbyname($data){
 
 	$mysqlpdo= new MySqlPDO();
 	$sql_count = "select count(*) as num from `group` where `name` like ?";
-	
+
 	$mysqlpdo->prepare($sql_count);
 	$myarray = array($name);
 	if ($mysqlpdo->executeArr($myarray)) {
@@ -96,7 +96,7 @@ function getbyname($data){
 		if ($result_num>0) {
 
 			if ($result_num<$pagesize) {
-				$pagesize = $result_num; 
+				$pagesize = $result_num;
 			}
 			$result['total'] = $result_num;
 			$sql_resultlist = "select * from `group` where `name` like ? limit $begin,$pagesize";
@@ -104,11 +104,11 @@ function getbyname($data){
 			$mysqlpdo->prepare($sql_resultlist);
 			$result['resultList'] = array();
 			if ($mysqlpdo->executeArr($myarray)) {
-				
+
 				while($rs_resultlist = $mysqlpdo->fetch()){
 					$temp = array();
 					foreach ($rs_resultlist as $key => $value) {
-						
+
 						$temp[$key] = $value;
 					}
 					$result['resultList'][] = $temp;
@@ -189,7 +189,7 @@ function dopost($data){
 
 		$insert_sql = "insert into group_user (groupid,userid) values ";
 		$myarray = array();
-		for ($i=0; $i < count($ids); $i++) { 
+		for ($i=0; $i < count($ids); $i++) {
 			$insert_sql = $insert_sql."(?,?),";
 			$myarray[] = $lastid;
 			$myarray[] = $ids[$i];

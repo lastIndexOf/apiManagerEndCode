@@ -43,12 +43,13 @@ function dodelete($data){
 }
 
 function deleteByGroupid($data){//docs删除操作时要连同APIs表中的数据一块操作
+	//同时还要删除，commit表中的数据
 	
 }
 
 
 function deleteByDocsId($data){//docs删除操作时要连同APIs表中的数据一块操作
-	
+	//同时还要删除，commit表中的数据
 }
 
 function doput($data){

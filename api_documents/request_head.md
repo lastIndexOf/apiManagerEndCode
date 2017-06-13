@@ -113,7 +113,7 @@
 	{
 		result:(0|1)0表示失败，1成功
 		msg:错误信息
-		resultList:[
+		resultList:[	
 					{
 						id:(request_head 的id),
 						head:(头部名称)},

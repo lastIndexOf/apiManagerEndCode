@@ -53,22 +53,38 @@ function getallGroup($data){
 	$select_count = "select count(*) as num from `group_user` where `userid` = ?";
 	$myarray = array($_SESSION['id']);
 	$mysqlpdo->prepare($select_count);
-	if ($mysqppdo->executeArr($myarray)) {
+	if ($mysqlpdo->executeArr($myarray)) {
 		$rs = $mysqlpdo->fetch();
 		if ($rs['num']>0) {
-			$select_list = "select * from `group_user` where `userid` =? limit $begin,$pageszie";
+			$select_array = "select distinct `groupid` from `group_user` where `userid` =?";
 			$myarray = array($_SESSION['id']);
-			$mysqlpdo->prepare($select_list);
-			$result['resultList'] = array();
+			$mysqlpdo->prepare($select_array);
+			$groupid_array = array();
 			if ($mysqlpdo->executeArr($myarray)) {
 				while ($rs = $mysqlpdo->fetch()) {
-					$temp = array();
-					foreach ($rs as $key => $value) {
-						$temp[$key] = $value;
-					}
-					$result['resultList'][] = $temp;
+					$groupid_array[] = $rs['groupid'];
 				}
-				$result['result'] = '1';
+				$result['total'] = count($groupid_array);
+				$select_list = "select * from `group` where `id` in(";
+				for ($i=0; $i < count($groupid_array); $i++) { 
+					$select_list = $select_list."?,";
+				}
+				$select_list = substr($select_list,0,strlen($select_list)-1);
+				$select_list = $select_list.") limit $begin,$pagesize";
+				$mysqlpdo->prepare($select_list);
+				if ($mysqlpdo->executeArr($groupid_array)) {
+					$result['resultList'] = array();
+					while ($rs = $mysqlpdo->fetch()) {
+						$temp = array();
+						foreach ($rs as $key => $value) {
+							$temp[$key] = $value;
+						}
+						$result['resultList'][] = $temp;
+					}
+				}
+			}else{
+				$result['result']=0;
+				$result['msg']="查询错误群组 error:69";
 			}
 
 		}else{

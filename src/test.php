@@ -57,6 +57,7 @@
 <button onclick="testaddComment()">testaddComment</button>
 
 <button onclick="testgetComment()">testgetComment</button>
+<button onclick="testquery_apis()">testquery_apis</button>
 
 <br><br><form>
 
@@ -67,6 +68,19 @@
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
+
+function testquery_apis(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/apis.php",
+		type:"GET",
+		dataType:"json",
+		data:{
+			docsid:"1"
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
 function testgetComment(){
 	$.ajax({
 		url:"/apiManagerEndCode/src/comment.php",

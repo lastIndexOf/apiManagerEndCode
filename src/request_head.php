@@ -98,11 +98,13 @@ function getByHeadId($head_id){
 
 function doput($data){
 	
-	$update_sql = "update `request_head` set `head` = ? where `id` = ?";
+	$update_sql = "update `request_head` set `head` = ?,`name`=? where `id` = ?";
 	$mysqlpdo = new MySqlPDO();
 	$issuccess = 1;
 	for ($i=0; $i < count($data['heads']); $i++) { 
-		$myarray = array($data['heads'][$i]['head'],$data['heads'][$i]['id']);
+		$myarray = array($data['heads'][$i]['head'],
+						 $data['heads'][$i]['name'],
+						 $data['heads'][$i]['id']);
 		$mysqlpdo->prepare($update_sql);
 		if ($mysqlpdo->executeArr($myarray)) {
 
@@ -165,12 +167,13 @@ function deleteByApiId($data){
 }
 function dopost($data){
 	$result = array();
-	$mysql_insert = "insert into `request_head` (`head`,`api_id`) values";
+	$mysql_insert = "insert into `request_head` (`head`,`name`,`api_id`) values";
 	$myarray = array();
 	for ($i=0; $i < count($data['heads']); $i++) { 
 		$myarray[] = $data['heads'][$i]['head'];
 		$myarray[] = $data['heads'][$i]['api_id'];
-		$mysql_insert = $mysql_insert."(?,?),";
+		$myarray[] = $data['heads'][$i]['name'];
+		$mysql_insert = $mysql_insert."(?,?,?),";
 	}
 	$mysql_insert = substr($mysql_insert,0,strlen($mysql_insert)-1);
 	
@@ -179,7 +182,6 @@ function dopost($data){
 	if ($mysqlpdo->executeArr($myarray)) {
 		$result['result']=1;
 	}else{
-
 		$result['result']=0;
 		$result['msg']="插入数据库库错误";
 	}

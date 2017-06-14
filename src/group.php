@@ -35,13 +35,118 @@ function doget($data){
 			case '2':
 				getbyname($data);
 				break;
-
+			case '3':
+				getallGroup($data);
+				break;
+			case '4':
+				getuserBygroupid($data);
+				break;
 			default:
 				# code...
 				break;
 		}
 	};
 }
+function getuserBygroupid($data){
+	if (isset($data['groupid'])) {
+		$groupid = $data['groupid'];
+		$select_userarray= "select distinct `userid` from `group_user` where `groupid` = ?";
+		$agroupid = array($groupid);
+		$mysqlpdo = new MySqlPDO();
+		$array_group = array();
+		$mysqlpdo->prepare($select_userarray);
+		if ($mysqlpdo->executeArr($agroupid)) {
+			while ($rs = $mysqlpdo->fetch()) {
+				$array_group[] = $rs['userid'];
+			}
+			if (count($array_group)>0) {
+				$select_list = "select * from `user` where id in (";
+				for ($i=0; $i < count($array_group); $i++) {
+					$select_list = $select_list."?,";
+				}
+				$select_list= substr($select_list,0,strlen($select_list)-1);
+				$select_list =$select_list.")";
+				$mysqlpdo->prepare($select_list);
+
+				if ($mysqlpdo->executeArr($array_group)) {
+					$result['resultList'] = array();
+					while ($rs = $mysqlpdo->fetch()) {
+						$temp = array();
+						foreach ($rs as $key => $value) {
+							if ($key=='password') {
+								$temp[$key] = "*********密文";
+							}else{
+								$temp[$key] = $value;
+							}
+						}
+						$result['resultList'][] = $temp;
+					}
+				}
+			}else{
+				$result['result']="0";
+				$result['msg'] ="这个组没有任何成员";
+			}
+
+		}
+	}
+
+	echo json_encode($result);
+}
+
+
+
+function getallGroup($data){
+	$page = $data['page'];
+	$pagesize = $data['pagesize'];
+	$begin  = ($page-1)*$pagesize;
+	$mysqlpdo = new MySqlPDO();
+	$select_count = "select count(*) as num from `group_user` where `userid` = ?";
+	$myarray = array($_SESSION['id']);
+	$mysqlpdo->prepare($select_count);
+	if ($mysqlpdo->executeArr($myarray)) {
+		$rs = $mysqlpdo->fetch();
+		if ($rs['num']>0) {
+			$select_array = "select distinct `groupid` from `group_user` where `userid` =?";
+			$myarray = array($_SESSION['id']);
+			$mysqlpdo->prepare($select_array);
+			$groupid_array = array();
+			if ($mysqlpdo->executeArr($myarray)) {
+				while ($rs = $mysqlpdo->fetch()) {
+					$groupid_array[] = $rs['groupid'];
+				}
+				$result['total'] = count($groupid_array);
+				$select_list = "select * from `group` where `id` in(";
+				for ($i=0; $i < count($groupid_array); $i++) {
+					$select_list = $select_list."?,";
+				}
+				$select_list = substr($select_list,0,strlen($select_list)-1);
+				$select_list = $select_list.") limit $begin,$pagesize";
+				$mysqlpdo->prepare($select_list);
+				if ($mysqlpdo->executeArr($groupid_array)) {
+					$result['resultList'] = array();
+					while ($rs = $mysqlpdo->fetch()) {
+						$temp = array();
+						foreach ($rs as $key => $value) {
+							$temp[$key] = $value;
+						}
+						$result['resultList'][] = $temp;
+					}
+				}
+			}else{
+				$result['result']=0;
+				$result['msg']="查询错误群组 error:69";
+			}
+
+		}else{
+			$result['result']=0;
+			$result['msg']="您还没有加入任何群组";
+		}
+	}
+	echo json_encode($result);
+
+}
+
+
 
 function getbyid($data){
 	$groupid = $data['id'];
@@ -204,7 +309,12 @@ function dopost($data){
 		}
 		$insert_sql =substr($insert_sql,0,strlen($insert_sql)-1);
 		$mypdo->prepare($insert_sql);
-		$mypdo->executeArr($myarray);
+		if ($mypdo->executeArr($myarray)) {
+			$result['result']='1';
+		}else{
+			$result['result']='0';
+			$result['msg']="插入数据错误";
+		}
 	}
 	echo json_encode($result);
 }

@@ -105,7 +105,9 @@ function dopost($data){
 		$mysqlpdo->prepare($insert_sql);
 
 		if ($mysqlpdo->executeArr($myarray)) {
+			$lastid = $mysqlpdo->lastInsertId();
 			$result['result'] = '1';
+			$result['id']=$lastid;
 		}else{
 			$result['result'] = '0';
 			$result['msg'] = '插入数据有错误';

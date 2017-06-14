@@ -16,6 +16,7 @@
 	response:
 	{
 		result:(0|1)#0 添加失败，#1添加成功
+		id:(api的id)
 		msg:(失败信息)
 	}
 

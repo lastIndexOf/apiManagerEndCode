@@ -10,22 +10,52 @@
 
 	request:
 	{
-		api_id:
-		key:
-		desc:
-		type:
-		required:(0|1) 0表示不是必填，1表示必填,
-		child:{
-			api_id:
-			key:
-			desc:
-			type:
-			required:(0|1) 0表示不是必填，1表示必填,
-			child:{
+		
+		children:[
+
+				{
+					api_id:
+					key:
+					desc:
+					type:
+					required:(0|1) 0表示不是必填，1表示必填,
+					children:[
+							{
+								api_id:
+								key:
+								desc:
+								type:
+								required:(0|1) 0表示不是必填，1表示必填,
+								children:[
+									{
+									}
+								]
+							}
+					]
 			
-			}
-		}
-	
+				},
+				{
+					api_id:
+					key:
+					desc:
+					type:
+					required:(0|1) 0表示不是必填，1表示必填,
+					children:[
+							{
+								api_id:
+								key:
+								desc:
+								type:
+								required:(0|1) 0表示不是必填，1表示必填,
+								children:[
+									{
+									}
+								]
+							}
+					]
+			
+				}
+		]
 	}
 
 	response:
@@ -35,43 +65,46 @@
 	}
 
 
-2. <a name='queryInfo'>查看apiinfo</a>
+###2. <a name='queryInfo'>查看apiinfo</a>
 
-request:
-{
-	api_id:
-}
-
-response:
-{
-	result:(0|1),
-	msg:错误信息,
-	resultList:[
-		{
-			key:
-			desc:
-			type:
-			rank:
-			parent:
-			required:
-		},
-		{
-			key:
-			desc:
-			type:
-			rank:
-			parent:
-			required:
-		},
-		{
-			key:
-			desc:
-			type:
-			rank:
-			parent:
-			required:
-		}
+	request:
+	{
+		api_id:
+	}
 	
-	
-	]
-}
+	response:
+	{
+		result:(0|1),
+		msg:错误信息,
+		resultList:[
+			{	
+				id:
+				key:
+				desc:
+				type:
+				rank:
+				parent:
+				required:
+			},
+			{
+				id:
+				key:
+				desc:
+				type:
+				rank:
+				parent:
+				required:
+			},
+			{
+				id:
+				key:
+				desc:
+				type:
+				rank:
+				parent:
+				required:
+			}
+		
+		
+		]
+	}

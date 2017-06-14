@@ -13,12 +13,57 @@ function api(){
 		case 'PUT':
 			doput($data);
 			break;
+		case 'GET':
+			doget($data);
+			break;
 		
 		default:
 			# code...
 			break;
 	}
 }
+
+function doget($data){
+	$docsid = $data['docsid'];
+	if (isset($docsid) ) {
+		$mysqlpdo=new MySqlPDO();
+
+		$select_count = "select count(*) as num from `api` where `docsid` =?";
+		$myarray = array($data['docsid']);
+		$mysqlpdo->prepare($select_count);
+		if ($mysqlpdo->executeArr($myarray)) {
+			$rs_num = $mysqlpdo->fetch();
+			if ($rs_num['num'] >0 ) {
+				$select_list = "select * from api where docsid =?";
+				$mysqlpdo->prepare($select_list);
+				$result['result']=1;
+				$result['resultList'] = array();
+				if ($mysqlpdo->executeArr($myarray)) {
+					while($rs = $mysqlpdo->fetch()){
+						$temp = array();
+						foreach ($rs as $key => $value) {
+							$temp[$key]=$value;
+						}
+						$result['resultList'][]=$temp;
+					}
+				}
+			}else{
+				$result['result']=0;
+				$result['msg'] = "您这个文档中没有API";				
+			}
+		}
+
+
+	}else{
+		$result['result']=0;
+		$result['msg'] = "传输的数据错误";
+
+	}
+	echo json_encode($result);
+
+}
+
+
 
 function doput($data){//不能修改文档 API的id
 	$apisid = $data['apisid'];

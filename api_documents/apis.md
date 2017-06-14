@@ -57,6 +57,7 @@
 ###4. <a name='query'>查找API</a>
 
 	根据docs的id查找
+	get /apiManagerEndCode/src/apis.php
 	request:
 	{
 		docsid:#(docs的id)，
@@ -64,6 +65,8 @@
 	
 	response:
 	{
+		result:(0|1)0错误 1 成功
+		msg:错误信息
 		resultList:[
 					{
 						apisid:#(api的id),

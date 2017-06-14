@@ -2,7 +2,7 @@
 ##
 
 1. [增加数据](#addapiinfo)
-2. []
+2. [查看apiinfo](#queryInfo)
 
 
 ###1. <a name='addapiinfo'>增加文档</a>
@@ -33,3 +33,45 @@
 		result:(0|1)0表示有错，1表示成功
 		msg:(错误信息)
 	}
+
+
+2. <a name='queryInfo'>查看apiinfo</a>
+
+request:
+{
+	api_id:
+}
+
+response:
+{
+	result:(0|1),
+	msg:错误信息,
+	resultList:[
+		{
+			key:
+			desc:
+			type:
+			rank:
+			parent:
+			required:
+		},
+		{
+			key:
+			desc:
+			type:
+			rank:
+			parent:
+			required:
+		},
+		{
+			key:
+			desc:
+			type:
+			rank:
+			parent:
+			required:
+		}
+	
+	
+	]
+}

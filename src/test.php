@@ -57,9 +57,11 @@
 <button onclick="testaddComment()">testaddComment</button>
 
 <button onclick="testgetComment()">testgetComment</button>
-<button onclick="testquery_apis()">testquery_apis</button>
+<button onclick="testquery_apis()">testquery_apis</button><br><br>
 
-<br><br><form>
+<button onclick="testquery_api_infos()">testquery_api_infos</button>
+
+<form>
 
 	<input type="file" name="touxiang" id="touxiang" onchange="testtype5()">
 	
@@ -68,6 +70,19 @@
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
+function testquery_api_infos(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/api_info.php",
+		type:"GET",
+		dataType:"json",
+		data:{
+			api_id:"1"
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+
 
 function testquery_apis(){
 	$.ajax({
@@ -259,25 +274,70 @@ function testadd_apiinfo(){
 		type:"post",
 		dataType:"json",
 		data:{
-			api_id:'1',
-			key:'1',
-			desc:'2',
-			type:'3',
-			required:0,
-			child:{
-				api_id:'1',
-				key:'21',
-				desc:'22',
-				type:'23',
-				required:1,
-				child:{
-					api_id:'1',
-					key:'31',
-					desc:'32',
-					type:'33',
-					required:0,
-				}
-			}
+			children:[
+
+				{
+					api_id:"1",
+					key:"key11",
+					desc:"desc11",
+					type:"11",
+					required:"1",
+					children:[
+							{
+								api_id:"1",
+								key:"key22",
+								desc:"desc22",
+								type:"22",
+								required:"2",
+								children:[
+										{
+											api_id:"1",
+											key:"key22",
+											desc:"desc22",
+											type:"22",
+											required:"2"
+										},
+										{
+											api_id:"1",
+											key:"key22",
+											desc:"desc22",
+											type:"22",
+											required:"2"
+										},
+									]
+								
+							}
+					]
+			
+				},
+				{
+					api_id:"1",
+					key:"21",
+					desc:"21",
+					type:"21",
+					required:"1",
+					children:[]
+			
+				},
+				{
+					api_id:"1",
+					key:"21",
+					desc:"21",
+					type:"21",
+					required:"1",
+					children:[]
+			
+				},
+				{
+					api_id:"1",
+					key:"21",
+					desc:"21",
+					type:"21",
+					required:"1",
+					children:[]
+			
+				},
+			]
 	
 		},
 		success:function(data){},

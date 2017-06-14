@@ -26,13 +26,32 @@ function api_info(){
 function doget($data){
 	if (isset($data['api_id'])) {
 		$mysqlpdo = new MySqlPDO();
-		$select_list = "select count(*) as num from `api_info` where `api_id` =?";
+		$select_num = "select count(*) as num from `api_info` where `api_id` =?";
 		$myarray = array($data['api_id']);
-		$mysqlpdo->prepare($select_list);
+		$mysqlpdo->prepare($select_num);
 		if ($mysqlpdo->executeArr($myarray)) {
 			$num_rs =$mysqlpdo->fetch();
 			if ($num_rs['num']>0) {
-				# code...
+				$select_list = "select * from `api_info` where `api_id`=?";
+				$mysqlpdo->prepare($select_list);
+				if ($mysqlpdo->executeArr($myarray)) {
+					$result['resultList'] = array();
+					while($rs = $mysqlpdo->fetch()){
+						$temp = array();
+						foreach ($rs as $key => $value) {
+							if ($key=='parent' && $value==null) {
+								$temp[$key]="";
+							}else{
+								$temp[$key]=$value;
+							}
+							
+						}
+						$result['resultList'][]= $temp;
+					}
+				}else{
+					$result['result']='0';
+					$result['msg']="查询错误";
+				}
 			}else{
 				$result['result']=0;
 				$result['msg']="您还没有添加参数";
@@ -43,97 +62,115 @@ function doget($data){
 		$result['result']=0;
 		$result['msg']="数据传输错误";
 	}
+	echo json_encode($result);
 }
 
 function dopost($data){
 	global $json_to_array;
 	global $rank;
 
+	global $mysqlpdo;
+	$mysqlpdo = new MySqlPDO();
+
+	global $issuccess;
+	$issuccess = 1;
+
 	$json_to_array = array();
 	$rank=0;
-	analyze_data($data);
+	analyze_data($data,0,"");
 
-	$mysqlpdo = new MySqlPDO();
-	$parent = -1;
-
-	$issuccess = 0;
-
-	
-
-	for ($i=count($json_to_array)-1; $i >=0 ; $i--) { 
-		$insert_sql = "insert into `api_info`(`key`,`desc`,`type`,`required`,`rank`,`api_id`,`parent`) values (?,?,?,?,?,?,?)";
-		if ($parent == -1) {
-
-			$select_issame = "select count(*) as num from `api_info` where `parent` IS NULL AND `key`=? AND `api_id`=?";
-			$issamearray = array($json_to_array[$i]['key'],
-								 $json_to_array[$i]['api_id']);
-			$mysqlpdo->prepare($select_issame);
-			if ($mysqlpdo->executeArr($issamearray)) {
-				$rs = $mysqslpdo->fetch();
-				if ($rs['num']>0) {
-					$result['result'] = 0;
-					$result['msg'] = "此参数已经存在";
-					echo json_encode($result);
-				}
-			}
-			$myarray= array($json_to_array[$i]['key'],
-							$json_to_array[$i]['desc'],
-							$json_to_array[$i]['type'],
-							$json_to_array[$i]['required'],
-							$json_to_array[$i]['rank'],
-							$json_to_array[$i]['api_id'],
-							null);
-		}else{
-			$myarray= array($json_to_array[$i]['key'],
-							$json_to_array[$i]['desc'],
-							$json_to_array[$i]['type'],
-							$json_to_array[$i]['required'],
-							$json_to_array[$i]['rank'],
-							$json_to_array[$i]['api_id'],
-							$parent);
-		}
-		$mysqlpdo->prepare($insert_sql);
-		if ( $mysqlpdo->executeArr($myarray) ) {
-			$parent = $mysqlpdo->lastInsertId();
-		}else{
-			$issuccess = 0;
-		}
-		
-	}
-
-
-	if ($issuccess == 0) {
-		$result['result'] = 0;
-		$result['msg'] = "数据存储失败";
+	global $issuccess;
+	if ($issuccess == 1) {
+		$result['result']=1;
 	}else{
-		$result["result"] = 1;
+		$result['result']=0;
+		$result['msg']="插入数据有错误";
 	}
-
 	echo json_encode($result);
 }
 
-function analyze_data($data){
-	$array_row= array();
-	global $rank;
-	if ( isset($data['child']) && !empty($data['child']) ) {
-		
-		foreach ($data as $key => $value) {
-			if ($key!='child') {
-				$array_row[$key] = $value;
+function analyze_data($data,$myrank,$parent){
+	for ($i=0; $i < count($data['children']); $i++) {
+		if ( isset($data['children'][$i]['children']) && 
+			count($data['children'][$i]['children']) >0 ) {
+			$temp =array();
+			foreach ($data['children'][$i] as $key => $value) {
+				if ($key!='children') {
+					$temp[$key] = $value;
+				}
+			}
+			$temp['rank']=$myrank;
+			global $json_to_array;
+			$json_to_array[]=$temp;
+
+			if ($parent == "") {
+				$insert_sql = "insert into `api_info` (`key`,`desc`,`type`,`rank`,`api_id`,`required`) values(?,?,?,?,?,?)";
+				$myarray= array($temp['key'],
+								$temp['desc'],
+								$temp['type'],
+								$temp['rank'],
+								$temp['api_id'],
+								$temp['required']);
+			}else{
+				$insert_sql = "insert into `api_info` (`key`,`desc`,`type`,`rank`,`api_id`,`required`,`parent`) values(?,?,?,?,?,?,?)";
+				$myarray= array($temp['key'],
+								$temp['desc'],
+								$temp['type'],
+								$temp['rank'],
+								$temp['api_id'],
+								$temp['required'],
+								$parent);
+			}
+			global $mysqlpdo;
+			$mysqlpdo->prepare($insert_sql);
+			if ($mysqlpdo->executeArr($myarray)) {
+				$parenti = $mysqlpdo->lastInsertId();
+			}else{
+				global $issuccess;
+				$issuccess = 0;
+				return ;
+			}
+			analyze_data($data['children'][$i],$myrank+1,$parenti);
+
+		}else{
+			$temp =array();
+			$temp = $data['children'][$i];
+			$temp['rank']= $myrank;
+			global $json_to_array;	
+			$json_to_array[]=$temp;
+
+			if ($parent == "") {
+				$insert_sql = "insert into `api_info` (`key`,`desc`,`type`,`rank`,`api_id`,`required`) values(?,?,?,?,?,?)";
+				$myarray= array($temp['key'],
+								$temp['desc'],
+								$temp['type'],
+								$temp['rank'],
+								$temp['api_id'],
+								$temp['required']);
+			}else{
+				$insert_sql = "insert into `api_info` (`key`,`desc`,`type`,`rank`,`api_id`,`required`,`parent`) values(?,?,?,?,?,?,?)";
+				$myarray= array($temp['key'],
+								$temp['desc'],
+								$temp['type'],
+								$temp['rank'],
+								$temp['api_id'],
+								$temp['required'],
+								$parent);
+			}
+			global $mysqlpdo;
+			$mysqlpdo->prepare($insert_sql);
+			if ($mysqlpdo->executeArr($myarray)) {
+				$parenti = $mysqlpdo->lastInsertId();
+			}else{
+				global $issuccess;
+				$issuccess = 0;
+				return ;
 			}
 		}
-		$array_row['rank'] = $rank;
-		$rank++;
-		analyze_data($data['child']);
-	}else{
-		foreach ($data as $key => $value) {
-			$array_row[$key] = $value;
-		}
-		$array_row['rank'] = $rank;
-		$rank++;
 	}
-	global $json_to_array;
-	$json_to_array[] = $array_row;
+
+
+
 	
 }
 

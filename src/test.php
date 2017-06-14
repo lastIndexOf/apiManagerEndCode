@@ -61,6 +61,8 @@
 
 <button onclick="testquery_api_infos()">testquery_api_infos</button>
 
+<button onclick="testadd_note()">testadd_note</button>
+
 <form>
 
 	<input type="file" name="touxiang" id="touxiang" onchange="testtype5()">
@@ -70,6 +72,24 @@
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
+function testadd_note(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/note.php",
+		type:"post",
+		dataType:"json",
+		data:{
+			userid:"8",
+			content:"111111",
+			title:"title",
+			m_title:"mtitle",
+			preview:"22222"
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+
+
 function testquery_api_infos(){
 	$.ajax({
 		url:"/apiManagerEndCode/src/api_info.php",

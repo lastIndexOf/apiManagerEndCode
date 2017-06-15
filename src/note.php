@@ -138,6 +138,7 @@ function selectBymTitle($data){
 			$result['result']=0;
 			$result['msg'] ="查找不到与此小标题相关的备忘录";
 		}
+	}
 
 	echo json_encode($result);
 }

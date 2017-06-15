@@ -167,7 +167,7 @@ function deleteByApiId($data){
 	echo json_encode($result);
 }
 function dopost($data){
-	// echo json_encode($data);
+	$data['heads'] = json_decode($data['heads'],true);
 	$result = array();
 	$mysql_insert = "insert into `request_head` (`head`,`name`,`api_id`) values";
 	$myarray = array();

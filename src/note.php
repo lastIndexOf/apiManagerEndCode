@@ -54,6 +54,7 @@ function doget($data){
 		$result['msg']="传输数据错误";
 	}
 }
+
 function selectByContent($data){
 	$page = $data['page'];
 	$pagesize = $data['pagesize'];
@@ -92,6 +93,7 @@ function selectByContent($data){
 			$result['result']=0;
 			$result['msg'] ="查找不到与此内容相关的备忘录";
 		}
+	}
 
 }
 
@@ -224,6 +226,7 @@ function dodelete($data){
 	}else{
 		$result['result'] = '0';
 		$result['msg']="传输数据错误";
+		echo json_encode($result);
 	}
 	
 }

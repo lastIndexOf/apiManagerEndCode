@@ -68,7 +68,6 @@ function getlist($data){
 	$mysqlpdo = new MySqlPDO();
 	$mysqlpdo->prepare($select_content);
 
-	$like_content = "%".$data['content']."%";
 	$myarray = array($userid);
 
 	if ($mysqlpdo->executeArr($myarray)) {
@@ -76,7 +75,7 @@ function getlist($data){
 		$result['total'] = $rs_num['num'];
 		if ($rs_num['num'] >0 ) {
 			
-			$select_list = "select count(*) as num from `note` where `userid`=? limit $begin,$pagesize";
+			$select_list = "select * from `note` where `userid`=? limit $begin,$pagesize";
 			$mysqlpdo->prepare($select_list);
 
 			if ($mysqlpdo->executeArr($myarray)) {
@@ -119,7 +118,7 @@ function selectByContent($data){
 		if ($rs_num['num'] >0 ) {
 			$result['total'] = $rs_num['num'];
 
-			$select_list = "select count(*) as num from `note` where `userid`=? and `content` like ? limit $begin,$pagesize";
+			$select_list = "select * from `note` where `userid`=? and `content` like ? limit $begin,$pagesize";
 			$mysqlpdo->prepare($select_list);
 
 			if ($mysqlpdo->executeArr($myarray)) {
@@ -162,7 +161,7 @@ function selectBymTitle($data){
 		if ($rs_num['num'] >0 ) {
 			$result['total'] = $rs_num['num'];
 
-			$select_list = "select count(*) as num from `note` where `userid`=? and `mtitle` like ? limit $begin,$pagesize";
+			$select_list = "select * from `note` where `userid`=? and `mtitle` like ? limit $begin,$pagesize";
 			$mysqlpdo->prepare($select_list);
 
 			if ($mysqlpdo->executeArr($myarray)) {
@@ -207,7 +206,7 @@ function selectByTitle($data){
 		$rs_num = $mysqlpdo->fetch();
 		if ($rs_num['num'] >0 ) {
 			$result['total'] = $rs_num['num'];
-			$select_list = "select count(*) as num from `note` where `userid`=? and `title` like ? limit $begin,$pagesize";
+			$select_list = "select * from `note` where `userid`=? and `title` like ? limit $begin,$pagesize";
 
 			$mysqlpdo->prepare($select_list);
 

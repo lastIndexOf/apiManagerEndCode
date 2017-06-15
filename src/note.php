@@ -94,7 +94,7 @@ function selectByContent($data){
 			$result['msg'] ="查找不到与此内容相关的备忘录";
 		}
 	}
-
+	echo json_encode($result);
 }
 
 
@@ -184,7 +184,7 @@ function selectByTitle($data){
 		}
 	}
 
-
+	echo json_encode($result);
 
 }
 

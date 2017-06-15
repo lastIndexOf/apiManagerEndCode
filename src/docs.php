@@ -33,7 +33,7 @@ function dodelete($data){
 				deleteByGroupid($data);
 				break;
 			case '2':
-				deleteByDocsId($data);
+				deleteByDocsId($data['docsid']);
 				break;
 			default:
 				# code...
@@ -44,12 +44,142 @@ function dodelete($data){
 
 function deleteByGroupid($data){//docs删除操作时要连同APIs表中的数据一块操作
 	//同时还要删除，commit表中的数据
+
+	$select_group_id ="select `id` from `docs` where `group_id` =?";
+	$array_groupid = array($data['groupid']);
+
+	$mysqlpdo = new MySqlPDO();
+	$all_docs_id = array();
+
+	$mysqlpdo->prepare($select_group_id);
+	if ($mysqlpdo->executeArr($array_groupid)) {
+		while($rs = $mysqlpdo->fetch()){
+			$all_docs_id[]=$rs['id'];
+		}
+	}else{
+		$result['result']=0;
+		$result['msg']= "查询docs信息错误";
+		echo json_encode($result);
+		return ;
+	}
+
+	for ($i=0; $i < count($all_docs_id); $i++) { 
+		deleteByDocsId($all_docs_id[$i]);
+	}
+	$result['result']=1;
+	echo json_encode($result);
 	
 }
 
 
-function deleteByDocsId($data){//docs删除操作时要连同APIs表中的数据一块操作
+function deleteByDocsId($docsid){//docs删除操作时要连同APIs表中的数据一块操作
 	//同时还要删除，commit表中的数据
+	//删除commit
+	$delete_commit = "delete from `commit` where `docsid`=?";
+	$mysqlpdo = new MySqlPDO();
+	$myarrayDocsid = array($docsid);
+	$mysqlpdo->prepare($delete_commit);
+	if (!$mysqlpdo->executeArr($myarrayDocsid)) {
+		$result['result']=0;
+		$result['msg']= "删除commit信息错误";
+		echo json_encode($result);
+		return ;
+	}
+	//删除comment
+	$delete_comment = "delete from `comment` where `docsid`=?";
+	$mysqlpdo->prepare($delete_comment);
+
+	if (!$mysqlpdo->executeArr($myarrayDocsid)) {
+		$result["result"]=0;
+		$result['msg']="删除comment信息错误";
+		echo json_encode($result);
+		return ;
+	}
+
+	//获取API的id
+	$select_apiid = "select `id` from `api` where `docsid` = ?";
+	$mysqlpdo->prepare($select_apiid);
+
+	$myarray_api_id = array();
+	if ($mysqlpdo->executeArr($myarrayDocsid)) {
+		while($rs = $mysqlpdo->fetch()){
+			$myarray_api_id[] = $rs['id'];
+		}
+	}
+
+	$delete_api_info = "delete from `api_info` where `api_id` in (";
+	$delete_log = "delete from `api_info` where `api_id` in (";
+	$delete_request_head ="delete from `request_head` where `api_id` in (";
+	$delete_response_api = "delete from `response_api` where `api_id` in (";
+
+	for ($i=0; $i < count($myarray_api_id); $i++) { 
+		$delete_api_info = $delete_api_info."?,";
+		$delete_log = $delete_log."?,";
+		$delete_request_head = $delete_request_head."?,";
+		$delete_response_api = $delete_response_api."?,";
+
+	}
+	$delete_api_info = substr($delete_api_info, 0,strlen($delete_api_info)-1);
+	$delete_api_info = $delete_api_info.")";
+
+	$delete_log = substr($delete_log, 0,strlen($delete_log)-1);
+	$delete_log = $delete_log.")";
+
+	$delete_request_head=substr($delete_request_head, 0,strlen($delete_request_head)-1);
+	$delete_request_head = $delete_request_head.")";
+
+	$delete_response_api=substr($delete_response_api, 0,strlen($delete_response_api)-1);
+	$delete_response_api=$delete_response_api.")";
+
+	//删除api_info
+	$mysqlpdo->prepare($delete_api_info);
+
+	if(!$mysqlpdo->executeArr($myarray_api_id)){
+		$result['result']=0;
+		$result['msg']= "删除api_info信息错误";
+		echo json_encode($result);
+		return ;
+	}
+
+
+	$mysqlpdo->prepare($delete_log);
+
+	if(!$mysqlpdo->executeArr($myarray_api_id)){
+		$result['result']=0;
+		$result['msg']= "删除api_info信息错误";
+		echo json_encode($result);
+		return ;
+	}
+
+
+
+	$mysqlpdo->prepare($delete_response_api);
+
+	if(!$mysqlpdo->executeArr($myarray_api_id)){
+		$result['result']=0;
+		$result['msg']= "删除api_info信息错误";
+		echo json_encode($result);
+		return ;
+	}
+
+
+
+
+	$mysqlpdo->prepare($delete_api_info);
+
+	if(!$mysqlpdo->executeArr($myarray_api_id)){
+		$result['result']=0;
+		$result['msg']= "删除api_info信息错误";
+		echo json_encode($result);
+		return ;
+	}
+
+
+	$result['result']=1;
+	echo json_encode($result);
+	return ;
+
+
 }
 
 function doput($data){

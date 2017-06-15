@@ -180,6 +180,7 @@ function dopost($data){
 	}else{
 		$result['result']= 0;
 		$result['msg']="信息更新错误";
+		echo json_encode($result);
 		return ;
 	}
 

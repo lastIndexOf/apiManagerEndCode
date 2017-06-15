@@ -44,6 +44,9 @@ function doget($data){
 			case '4':
 				selectByContent($data);
 				break;
+			case '5':
+				getlist($data);
+				break;
 			
 			default:
 				# code...
@@ -52,8 +55,51 @@ function doget($data){
 	}else{
 		$result['result'] = '0';
 		$result['msg']="传输数据错误";
+		echo json_encode($result);
 	}
 }
+function getlist($data){
+	$page = $data['page'];
+	$pagesize = $data['pagesize'];
+	$begin  = ($page-1)*$pagesize;
+	$userid = $_SESSION['id'];
+	$select_content = "select count(*) as num from `note` where `userid`=? limit $begin,$pagesize";
+
+	$mysqlpdo = new MySqlPDO();
+	$mysqlpdo->prepare($select_content);
+
+	$like_content = "%".$data['content']."%";
+	$myarray = array($userid);
+
+	if ($mysqlpdo->executeArr($myarray)) {
+		$rs_num = $mysqlpdo->fetch();
+		$result['total'] = $rs_num['num'];
+		if ($rs_num['num'] >0 ) {
+			
+			$select_list = "select count(*) as num from `note` where `userid`=? limit $begin,$pagesize";
+			$mysqlpdo->prepare($select_list);
+
+			if ($mysqlpdo->executeArr($myarray)) {
+				$result['result']=1;
+				$result['notes'] = array();
+				while( $rs_list = $mysqlpdo->fetch() ){
+					$temp = array();
+					foreach ($rs_list as $key => $value) {
+						$temp[$key]=$value;
+					}
+					$result['notes'][]=$temp;
+				}
+
+			}
+
+		}else{
+			$result['result']=1;
+			$result['notes'] = array();
+		}
+	}
+	echo json_encode($result);
+}
+
 
 function selectByContent($data){
 	$page = $data['page'];

@@ -80,7 +80,14 @@ function dopost($data){
 	$json_to_array = array();
 	$rank=0;
 
-	$data['children'] = decode($data['children'],true);
+	$data['children'] = json_decode($data['children'],true);
+
+	if (count($data['children'])<=0) {
+		$result['result']=0;
+		$result['msg']="传输数据错误";
+		echo json_encode($result);
+		return ;
+	}
 
 	$delete_sql = "delete from `api_info` where `api_id` =?";
 	$myarray_del = array($data['children'][0]['api_id']);

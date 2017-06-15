@@ -74,6 +74,30 @@ function dopost($data){
 	global $issuccess;
 	$issuccess = 1;
 
+	$data['children'] = json_decode($data['children'],true);
+
+	if (count($data['children'])<=0) {
+		$result['result']=0;
+		$result['msg']="传输数据错误";
+		echo json_encode($result);
+		return ;
+	}
+
+
+	$delete_sql = "delete from `response_api` where `api_id` =?";
+	$myarray_del = array($data['children'][0]['api_id']);
+	$mysqlpdo_del = new MySqlPDO();
+	$mysqlpdo_del->prepare($delete_sql);
+	if ($mysqlpdo_del->executeArr($myarray_del)) {
+		
+	}else{
+		$result['result']=0;
+		$result['msg']="更新数据失败";
+		echo json_encode($result);
+		return ;
+	}
+
+
 	$json_to_array = array();
 	$rank=0;
 	analyze_data($data,0,"");

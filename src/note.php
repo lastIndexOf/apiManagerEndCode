@@ -77,7 +77,7 @@ function selectByContent($data){
 
 			if ($mysqlpdo->executeArr($myarray)) {
 				$result['result']=1;
-				$result['notes'] = array():
+				$result['notes'] = array();
 				while( $rs_list = $mysqlpdo->fetch() ){
 					$temp = array();
 					foreach ($rs_list as $key => $value) {

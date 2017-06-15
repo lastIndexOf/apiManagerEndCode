@@ -22,3 +22,33 @@
 	}
 
 
+2. <a name="getByDocsID">getBydocsid</a>
+
+	get /apiManagerEndCode/src/commit.php
+
+	request:
+	{
+		docsid:
+		page:
+		pagesize:
+	}
+	
+	
+	response:
+	{
+		result:(0|1)0 失败  /1 成功
+		total:
+		resultList:[
+				{
+					id:
+					time:
+					docsid:
+					content:
+					userid:
+					preview:
+				}
+				
+			]
+	
+	}
+

@@ -301,7 +301,7 @@ function doput($data){
 	$title = $data['title'];
 	$mtitle = $data['m_title'];
 	$preview = $data['preview'];
-	$updata_sql ="update note set `content` =?,`title`=?,`m_title`=?,`preview`=? where id=?";
+	$updata_sql ="update note set `content` =?,`title`=?,`mtitle`=?,`preview`=? where id=?";
 
 	$myarray = array($content,$title,$mtitle,$preview,$id);
 

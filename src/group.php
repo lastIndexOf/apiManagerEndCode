@@ -19,7 +19,7 @@ function group(){
 		case 'GET':
 			doget($data);
 			break;
-		
+
 		default:
 			# code...
 			break;
@@ -41,7 +41,6 @@ function doget($data){
 			case '4':
 				getuserBygroupid($data);
 				break;
-			
 			default:
 				# code...
 				break;
@@ -62,7 +61,7 @@ function getuserBygroupid($data){
 			}
 			if (count($array_group)>0) {
 				$select_list = "select * from `user` where id in (";
-				for ($i=0; $i < count($array_group); $i++) { 
+				for ($i=0; $i < count($array_group); $i++) {
 					$select_list = $select_list."?,";
 				}
 				$select_list= substr($select_list,0,strlen($select_list)-1);
@@ -75,9 +74,9 @@ function getuserBygroupid($data){
 						$temp = array();
 						foreach ($rs as $key => $value) {
 							if ($key=='password') {
-								$temp[$key] = "*********密文"; 
-							}else{	
-								$temp[$key] = $value; 
+								$temp[$key] = "*********密文";
+							}else{
+								$temp[$key] = $value;
 							}
 						}
 						$result['resultList'][] = $temp;
@@ -87,7 +86,7 @@ function getuserBygroupid($data){
 				$result['result']="0";
 				$result['msg'] ="这个组没有任何成员";
 			}
-			
+
 		}
 	}
 
@@ -117,7 +116,7 @@ function getallGroup($data){
 				}
 				$result['total'] = count($groupid_array);
 				$select_list = "select * from `group` where `id` in(";
-				for ($i=0; $i < count($groupid_array); $i++) { 
+				for ($i=0; $i < count($groupid_array); $i++) {
 					$select_list = $select_list."?,";
 				}
 				$select_list = substr($select_list,0,strlen($select_list)-1);
@@ -193,7 +192,7 @@ function getbyname($data){
 
 	$mysqlpdo= new MySqlPDO();
 	$sql_count = "select count(*) as num from `group` where `name` like ?";
-	
+
 	$mysqlpdo->prepare($sql_count);
 	$myarray = array($name);
 	if ($mysqlpdo->executeArr($myarray)) {
@@ -202,7 +201,7 @@ function getbyname($data){
 		if ($result_num>0) {
 
 			if ($result_num<$pagesize) {
-				$pagesize = $result_num; 
+				$pagesize = $result_num;
 			}
 			$result['total'] = $result_num;
 			$sql_resultlist = "select * from `group` where `name` like ? limit $begin,$pagesize";
@@ -210,11 +209,11 @@ function getbyname($data){
 			$mysqlpdo->prepare($sql_resultlist);
 			$result['resultList'] = array();
 			if ($mysqlpdo->executeArr($myarray)) {
-				
+
 				while($rs_resultlist = $mysqlpdo->fetch()){
 					$temp = array();
 					foreach ($rs_resultlist as $key => $value) {
-						
+
 						$temp[$key] = $value;
 					}
 					$result['resultList'][] = $temp;
@@ -301,7 +300,8 @@ function dopost($data){
 		$time = date('Y-m-d H:i:s');
 		$insert_sql = "insert into group_user (groupid,userid,time) values ";
 		$myarray = array();
-		for ($i=0; $i < count($ids); $i++) { 
+
+		for ($i=0; $i < count($ids); $i++) {
 			$insert_sql = $insert_sql."(?,?,?),";
 			$myarray[] = $lastid;
 			$myarray[] = $ids[$i];

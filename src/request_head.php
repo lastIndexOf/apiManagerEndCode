@@ -171,8 +171,8 @@ function dopost($data){
 	$myarray = array();
 	for ($i=0; $i < count($data['heads']); $i++) { 
 		$myarray[] = $data['heads'][$i]['head'];
-		$myarray[] = $data['heads'][$i]['api_id'];
 		$myarray[] = $data['heads'][$i]['name'];
+		$myarray[] = $data['heads'][$i]['api_id'];
 		$mysql_insert = $mysql_insert."(?,?,?),";
 	}
 	$mysql_insert = substr($mysql_insert,0,strlen($mysql_insert)-1);

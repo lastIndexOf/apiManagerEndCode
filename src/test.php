@@ -271,11 +271,13 @@ function testadd_request_head(){
 		data:{
 			heads:[{
 					head:"head1",
-					api_id:1
+					api_id:"1",
+					name:"qqe"
 				},
 				{
 					head:"head2",
-					api_id:1
+					api_id:"1",
+					name:"12233"
 				}
 
 			]

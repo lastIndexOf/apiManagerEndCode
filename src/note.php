@@ -30,8 +30,185 @@ function note(){
 
 
 function doget($data){
-	
+	if (isset( $data['type'] )) {
+		switch ($data['type']) {
+			case '1':
+				selectById($data);
+				break;
+			case '2':
+				selectByTitle($data);
+				break;
+			case '3':
+				selectBymTitle($data);
+				break;
+			case '4':
+				selectByContent($data);
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+	}else{
+		$result['result'] = '0';
+		$result['msg']="传输数据错误";
+	}
 }
+function selectByContent($data){
+	$page = $data['page'];
+	$pagesize = $data['pagesize'];
+	$begin  = ($page-1)*$pagesize;
+	$userid = $_SESSION['id'];
+	$select_content = "select count(*) as num from `note` where `userid`=? and `content` like ? limit $begin,$pagesize";
+
+	$mysqlpdo = new MySqlPDO();
+	$mysqlpdo->prepare($select_content);
+
+	$like_content = "%".$data['content']."%";
+	$myarray = array($userid,$like_content);
+
+	if ($mysqlpdo->executeArr($myarray)) {
+		$rs_num = $mysqlpdo->fetch();
+		if ($rs_num['num'] >0 ) {
+			$result['total'] = $rs_num['num'];
+
+			$select_list = "select count(*) as num from `note` where `userid`=? and `content` like ? limit $begin,$pagesize";
+			$mysqlpdo->prepare($select_list);
+
+			if ($mysqlpdo->executeArr($myarray)) {
+				$result['result']=1;
+				$result['notes'] = array():
+				while( $rs_list = $mysqlpdo->fetch() ){
+					$temp = array();
+					foreach ($rs_list as $key => $value) {
+						$temp[$key]=$value;
+					}
+					$result['notes'][]=$temp;
+				}
+
+			}
+
+		}else{
+			$result['result']=0;
+			$result['msg'] ="查找不到与此内容相关的备忘录";
+		}
+
+}
+
+
+function selectBymTitle($data){
+	$page = $data['page'];
+	$pagesize = $data['pagesize'];
+	$begin  = ($page-1)*$pagesize;
+	$userid = $_SESSION['id'];
+	$select_mtotal = "select count(*) as num from `note` where `userid`=? and `mtitle` like ? limit $begin,$pagesize";
+
+	$mysqlpdo = new MySqlPDO();
+	$mysqlpdo->prepare($select_mtotal);
+
+	$like_title = "%".$data['m_title']."%";
+	$myarray = array($userid,$like_title );
+
+	if ($mysqlpdo->executeArr($myarray)) {
+		$rs_num = $mysqlpdo->fetch();
+		if ($rs_num['num'] >0 ) {
+			$result['total'] = $rs_num['num'];
+
+			$select_list = "select count(*) as num from `note` where `userid`=? and `mtitle` like ? limit $begin,$pagesize";
+			$mysqlpdo->prepare($select_list);
+
+			if ($mysqlpdo->executeArr($myarray)) {
+				$result['result']=1;
+				$result['notes'] = array():
+				while( $rs_list = $mysqlpdo->fetch() ){
+					$temp = array();
+					foreach ($rs_list as $key => $value) {
+						$temp[$key]=$value;
+					}
+					$result['notes'][]=$temp;
+				}
+
+			}
+
+
+
+		}else{
+			$result['result']=0;
+			$result['msg'] ="查找不到与此小标题相关的备忘录";
+		}
+
+	echo json_encode($result);
+}
+
+
+
+function selectByTitle($data){
+	$page = $data['page'];
+	$pagesize = $data['pagesize'];
+	$begin  = ($page-1)*$pagesize;
+	$userid = $_SESSION['id'];
+	$select_total = "select count(*) as num from `note` where `userid`=? and `title` like ? limit $begin,$pagesize";
+
+	$mysqlpdo = new MySqlPDO();
+	$mysqlpdo->prepare($select_total);
+
+	$like_title = "%".$data['title']."%";
+	$myarray = array($userid,$like_title );
+	if ($mysqlpdo->executeArr($myarray)) {
+		$rs_num = $mysqlpdo->fetch();
+		if ($rs_num['num'] >0 ) {
+			$result['total'] = $rs_num['num'];
+			$select_list = "select count(*) as num from `note` where `userid`=? and `title` like ? limit $begin,$pagesize";
+
+			$mysqlpdo->prepare($select_list);
+
+			if ($mysqlpdo->executeArr($myarray)) {
+				$result['result']=1;
+				$result['notes'] = array():
+				while( $rs_list = $mysqlpdo->fetch() ){
+					$temp = array();
+					foreach ($rs_list as $key => $value) {
+						$temp[$key]=$value;
+					}
+					$result['notes'][]=$temp;
+				}
+
+			}
+
+		}else{
+			$result['result']=0;
+			$result['msg'] ="查找不到与此标题相关的备忘录";
+		}
+	}
+
+
+
+}
+
+
+
+
+function selectById($data){
+	$select_byId = "select * from `note` where id = ?";
+	$mysqlpdo = new MySqlPDO();
+	$mysqlpdo->prepare($select_byId); 
+	$myarray = array();
+	if ($mysqlpdo->executeArr($myarray)) {
+		$rs = $mysqlpdo->fetch();
+		$result['result'] = 1;
+		$result['note'] = array();
+		foreach ($rs as $key => $value) {
+			$result['note'][$key] = $value;
+		}
+	}else{
+		$result['result'] = 0;
+		$result['msg']="数据查询错误";
+	}
+	echo json_encode($result);
+}
+
+
+
 
 function dodelete($data){
 	if (isset( $data['type'] )) {

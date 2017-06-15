@@ -64,6 +64,7 @@
 	get /apiManagerEndCode/src/note.php
 	request:
 	{
+		type:1,
 		id:#(备忘录id)
 	}
 	
@@ -86,6 +87,7 @@
 	fwr /apiManagerEndCode/src/note.php
 	request:
 	{
+		type:2,
 		title:(标题),
 		page:#(第几页),
 		pagesize:#(每一页的页数)
@@ -116,6 +118,7 @@
 
 	request:
 	{
+		type:3,
 		m_title:(),
 		page:(),
 		pagesize:(),
@@ -146,6 +149,7 @@
 	
 	request:
 	{
+		type:4,
 		content:#(),
 		page:(),
 		pagesize:()

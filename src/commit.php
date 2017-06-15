@@ -7,6 +7,9 @@ function commit(){
 		case 'POST':
 			dopost($data);
 			break;
+		case 'GET':
+			doget($data);
+			break;
 		
 		default:
 			# code...
@@ -31,6 +34,11 @@ function dopost($data){
 		$result['msg']="数据插入错误";
 	}
 	echo json_encode($result);
+}
+
+
+function doget($data){
+	
 }
 
 ?>

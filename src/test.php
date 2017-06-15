@@ -269,7 +269,8 @@ function testadd_request_head(){
 		type:"post",
 		dataType:"json",
 		data:{
-			heads:[{
+			heads:[
+				{
 					head:"head1",
 					api_id:"1",
 					name:"qqe"
@@ -286,6 +287,22 @@ function testadd_request_head(){
 		success:function(data){},
 		error:function(){}
 	})
+	var arr = [
+				{
+					head:"head1",
+					api_id:"1",
+					name:"qqe"
+				},
+				{
+					head:"head2",
+					api_id:"1",
+					name:"12233"
+				}
+
+			];
+			arr = JSON.stringify(arr);
+
+	console.log(arr);
 }
 
 

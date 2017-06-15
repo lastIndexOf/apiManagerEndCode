@@ -40,6 +40,7 @@ function doget($data){
 	}
 	
 }
+
 function getByAPIId($apiid){
 	$select_sql = "select * from `request_head` where `api_id` = ?";
 	
@@ -166,6 +167,7 @@ function deleteByApiId($data){
 	echo json_encode($result);
 }
 function dopost($data){
+	// echo json_encode($data);
 	$result = array();
 	$mysql_insert = "insert into `request_head` (`head`,`name`,`api_id`) values";
 	$myarray = array();

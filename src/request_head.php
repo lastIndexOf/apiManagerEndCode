@@ -38,20 +38,20 @@ function doget($data){
 				break;
 		}
 	}
-	
+
 }
 
 function getByAPIId($apiid){
 	$select_sql = "select * from `request_head` where `api_id` = ?";
-	
+
 	$myarray = array($apiid);
 
 	$result = array();
 	$result['resultList']=array();
-	
+
 	$mysqlpdo = new MySqlPDO();
 	$mysqlpdo->prepare($select_sql);
-	
+
 	if ($mysqlpdo->executeArr($myarray) ) {
 		while($rs = $mysqlpdo->fetch()){
 			$tmp = array();
@@ -98,11 +98,11 @@ function getByHeadId($head_id){
 
 
 function doput($data){
-	
+
 	$update_sql = "update `request_head` set `head` = ?,`name`=? where `id` = ?";
 	$mysqlpdo = new MySqlPDO();
 	$issuccess = 1;
-	for ($i=0; $i < count($data['heads']); $i++) { 
+	for ($i=0; $i < count($data['heads']); $i++) {
 		$myarray = array($data['heads'][$i]['head'],
 						 $data['heads'][$i]['name'],
 						 $data['heads'][$i]['id']);
@@ -175,8 +175,13 @@ function dopost($data){
 	$mysqlpdo = new MySqlPDO();
 	$mysqlpdo->prepare($delete_sql);
 	$myarray = array($data['heads'][0]['api_id']);
+<<<<<<< HEAD
 	if ( $mysqlpdo->executeArr($myarray) ) { //删除之前的数据
 		
+=======
+	if ($mysqlpdo->executeArr($myarray)) {//删除之前的数据
+
+>>>>>>> 7b705b8e32f5071589bf6783badd0d7bb4ddf7fe
 	}else{
 		$result['result']= 0;
 		$result['msg']="信息更新错误";
@@ -187,14 +192,13 @@ function dopost($data){
 
 	$mysql_insert = "insert into `request_head` (`head`,`name`,`api_id`) values";
 	$myarray = array();
-	for ($i=0; $i < count($data['heads']); $i++) { 
+	for ($i=0; $i < count($data['heads']); $i++) {
 		$myarray[] = $data['heads'][$i]['head'];
 		$myarray[] = $data['heads'][$i]['name'];
 		$myarray[] = $data['heads'][$i]['api_id'];
 		$mysql_insert = $mysql_insert."(?,?,?),";
 	}
 	$mysql_insert = substr($mysql_insert,0,strlen($mysql_insert)-1);
-	
 	$mysqlpdo->prepare($mysql_insert);
 	if ($mysqlpdo->executeArr($myarray)) {
 		$result['result']=1;

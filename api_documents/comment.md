@@ -36,6 +36,8 @@
 	}
 	response:
 	{
+		result:(),
+		msg:
 		total:总数
 		resultList:[
 			{
@@ -45,7 +47,8 @@
 				fromuser:
 				content:
 				time:
-				preview:	
+				preview:
+				name:	
 			},
 			{
 				id:
@@ -55,6 +58,7 @@
 				content:
 				time:
 				preview:	
+				name:
 			},
 			{
 				id:
@@ -64,6 +68,7 @@
 				content:
 				time:
 				preview:	
+				name:
 			},....
 		]
 	}

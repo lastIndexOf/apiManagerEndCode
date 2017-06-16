@@ -65,7 +65,7 @@ function dopost($data){
 	$docsid = $data['docsid'];
 	$content = $data['content'];
 	$preview = $data['preview'];
-	$from = $data['from'];
+	$from = $_SESSION['id'];
 	$datetime = date("Y-m-d H:i:s");
 	$comment_id = $data['comment_id'];
 

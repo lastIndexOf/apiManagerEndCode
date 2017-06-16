@@ -175,13 +175,10 @@ function dopost($data){
 	$mysqlpdo = new MySqlPDO();
 	$mysqlpdo->prepare($delete_sql);
 	$myarray = array($data['heads'][0]['api_id']);
-<<<<<<< HEAD
-	if ( $mysqlpdo->executeArr($myarray) ) { //删除之前的数据
-		
-=======
-	if ($mysqlpdo->executeArr($myarray)) {//删除之前的数据
 
->>>>>>> 7b705b8e32f5071589bf6783badd0d7bb4ddf7fe
+
+	if ( $mysqlpdo->executeArr($myarray) ) { //删除之前的数据
+
 	}else{
 		$result['result']= 0;
 		$result['msg']="信息更新错误";

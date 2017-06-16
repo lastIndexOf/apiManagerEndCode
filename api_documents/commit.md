@@ -4,7 +4,7 @@
 ###1. [增加提交数据信息](#addcommit)
 
 
-1.<a name='addcommit'>增加提	交数据</a>
+###1.<a name='addcommit'>增加提交数据</a>
 
 	post /apiManagerEndCode/src/commit.php
 	request:
@@ -21,4 +21,34 @@
 		msg:错误信息
 	}
 
+
+###2. <a name="getByDocsID">getBydocsid</a>
+
+	get /apiManagerEndCode/src/commit.php
+
+	request:
+	{
+		docsid:
+		page:
+		pagesize:
+	}
+	
+	
+	response:
+	{
+		result:(0|1)0 失败  /1 成功
+		total:
+		resultList:[
+				{
+					id:
+					time:
+					docsid:
+					content:
+					userid:
+					preview:
+				}
+				
+			]
+	
+	}
 

@@ -78,6 +78,7 @@
 			title:(标题),
 			m_title:(小标题),
 			time:(备忘录创建时间或最后一次修改时间)
+			preview:
 		}
 	}
 
@@ -97,13 +98,14 @@
 	{
 		result:(0|1)#0查询失败 #1 查询成功
 		msg:#(失败信息),
-		totalnum:#(总条数)
+		total:#(总条数)
 		notes:[{
 					id:#(备忘录id),
 					content:(内容),
 					title:(标题),
 					m_title:(小标题),
 					time:(备忘录创建时间或最后一次修改时间)
+					preview:
 				},
 				{
 					id:#(备忘录id),
@@ -111,6 +113,7 @@
 					title:(标题),
 					m_title:(小标题),
 					time:(备忘录创建时间或最后一次修改时间)
+					preview:
 				},...]
 	}
 
@@ -127,21 +130,23 @@
 	response:
 		result:(0|1)#0查询失败 #1 查询成功
 		msg:#(失败信息),
-		totalnum:(),
+		total:(),
 		notes:
 			[{
 				id:#(备忘录id),
 				content:(内容),
 				title:(标题),
-				m_title:(小标题),
+				mtitle:(小标题),
 				time:(备忘录创建时间或最后一次修改时间)
+				preview:
 			},
 			{
 				id:#(备忘录id),
 				content:(内容),
 				title:(标题),
-				m_title:(小标题),
+				mtitle:(小标题),
 				time:(备忘录创建时间或最后一次修改时间)
+				preview:
 			},...]
 	}
 
@@ -159,20 +164,56 @@
 	{
 		result:(0|1)#0查询失败 #1 查询成功
 		msg:#(失败信息),
-		totalnum:(),
+		total:(),
 		notes:[
 				{
 					id:#(备忘录id),
 					content:(内容),
 					title:(标题),
-					m_title:(小标题),
+					mtitle:(小标题),
 					time:(备忘录创建时间或最后一次修改时间)
+					preview:
 				},
 				{
 					id:#(备忘录id),
 					content:(内容),
 					title:(标题),
-					m_title:(小标题),
+					mtitle:(小标题),
 					time:(备忘录创建时间或最后一次修改时间)
+					preview:
+				},...]
+	}
+
+### 7. 获取列表
+
+	request:
+	{
+		type:5,
+		page:(),
+		pagesize:()
+	}
+
+
+	response:
+	{
+		result:(0|1)#0查询失败 #1 查询成功
+		msg:#(失败信息),
+		total:(),
+		notes:[
+				{
+					id:#(备忘录id),
+					content:(内容),
+					title:(标题),
+					mtitle:(小标题),
+					time:(备忘录创建时间或最后一次修改时间)
+					preview:
+				},
+				{
+					id:#(备忘录id),
+					content:(内容),
+					title:(标题),
+					mtitle:(小标题),
+					time:(备忘录创建时间或最后一次修改时间)
+					preview:
 				},...]
 	}

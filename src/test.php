@@ -63,6 +63,14 @@
 
 <button onclick="testadd_note()">testadd_note</button>
 
+
+<button onclick="testadd_commit()">testadd_commit</button>
+
+
+<button onclick="testget_commit()">testget_commit</button>
+
+<button onclick="deleteBydocsid()">deleteBydocsid</button>
+
 <form>
 
 	<input type="file" name="touxiang" id="touxiang" onchange="testtype5()">
@@ -72,6 +80,55 @@
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
+
+function deleteBydocsid(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/docs.php",
+		type:"DELETE",
+		dataType:"json",
+		data:{
+			type:"2",
+			docsid:"1"
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+
+
+function testget_commit(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/commit.php",
+		type:"get",
+		dataType:"json",
+		data:{
+			docsid:"1",
+			page:"1",
+			pagesize:"8"
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+
+
+function testadd_commit(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/commit.php",
+		type:"post",
+		dataType:"json",
+		data:{
+			docsid:"1",
+			content:"111111",
+			userid:"8",
+			preview:"22222"
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+
+
 function testadd_note(){
 	$.ajax({
 		url:"/apiManagerEndCode/src/note.php",
@@ -269,13 +326,16 @@ function testadd_request_head(){
 		type:"post",
 		dataType:"json",
 		data:{
-			heads:[{
+			heads:[
+				{
 					head:"head1",
-					api_id:1
+					api_id:"1",
+					name:"qqe"
 				},
 				{
 					head:"head2",
-					api_id:1
+					api_id:"1",
+					name:"12233"
 				}
 
 			]
@@ -284,6 +344,22 @@ function testadd_request_head(){
 		success:function(data){},
 		error:function(){}
 	})
+	var arr = [
+				{
+					head:"head1",
+					api_id:"1",
+					name:"qqe"
+				},
+				{
+					head:"head2",
+					api_id:"1",
+					name:"12233"
+				}
+
+			];
+			arr = JSON.stringify(arr);
+
+	console.log(arr);
 }
 
 

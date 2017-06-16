@@ -231,7 +231,7 @@ function user_operate() {
 
 				if (isset($_SESSION['id']) && !empty($_SESSION['id']) ) {
 
-					$path = "/apiManagerEndCode/imgs/avatar/".$_SESSION['username'].'_'.time();
+					$path = "/apiManagerEndCode/imgs/avatar/".$_SESSION['id'].'_'.time();
 					if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $image_content, $result_img)){
 					  	$type = $result_img[2];
 					  	$path =$path.'.'.$type;

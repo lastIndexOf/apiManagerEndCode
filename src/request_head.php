@@ -40,6 +40,7 @@ function doget($data){
 	}
 
 }
+
 function getByAPIId($apiid){
 	$select_sql = "select * from `request_head` where `api_id` = ?";
 
@@ -166,21 +167,33 @@ function deleteByApiId($data){
 	echo json_encode($result);
 }
 function dopost($data){
-	$data['heads']= json_decode($data['heads'],true);
-
+	$data['heads'] = json_decode($data['heads'],true);
 	$result = array();
+
+	$delete_sql = "delete from `request_head` where `api_id` =?";
+
+	$mysqlpdo = new MySqlPDO();
+	$mysqlpdo->prepare($delete_sql);
+	$myarray = array($data['heads'][0]['api_id']);
+	if ($mysqlpdo->executeArr($myarray)) {//删除之前的数据
+
+	}else{
+		$result['result']= 0;
+		$result['msg']="信息更新错误";
+		echo json_encode($result);
+		return ;
+	}
+
+
 	$mysql_insert = "insert into `request_head` (`head`,`name`,`api_id`) values";
 	$myarray = array();
 	for ($i=0; $i < count($data['heads']); $i++) {
-
-		$myarray[] = $data['heads'][$i]["head"];
+		$myarray[] = $data['heads'][$i]['head'];
 		$myarray[] = $data['heads'][$i]['name'];
 		$myarray[] = $data['heads'][$i]['api_id'];
 		$mysql_insert = $mysql_insert."(?,?,?),";
 	}
 	$mysql_insert = substr($mysql_insert,0,strlen($mysql_insert)-1);
-
-	$mysqlpdo= new MySqlPDO();
 	$mysqlpdo->prepare($mysql_insert);
 	if ($mysqlpdo->executeArr($myarray)) {
 		$result['result']=1;

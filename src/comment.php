@@ -97,7 +97,7 @@ function dopost($data){
 	$mysqlpdo->prepare($insert_sql);
 	if ($mysqlpdo->executeArr($myarray)) {
 		$result['result']= 1;
-		$result['id']$mysqlpdo->lastInsertId();
+		$result['id']=$mysqlpdo->lastInsertId();
 	}else{
 		$result['result']= 0;
 		$result['msg']="插入数据失败";

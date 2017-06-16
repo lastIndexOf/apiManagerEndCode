@@ -20,12 +20,11 @@ function dopost($data){
 	$docsid = $data['docsid'];
 	$userid = $data['userid'];
 	$content = $data['content'];
-	$preview = $data['preview'];
 	$time = date('Y-m-d H:i:s');
 
-	$insert_sql = "insert into commit (time,content,preview,userid,docsid) values(?,?,?,?,?)";
+	$insert_sql = "insert into commit (time,content,userid,docsid) values(?,?,?,?)";
 	$mysqlpdo = new MySqlPDO();
-	$myarray = array($time,$content,$preview ,$userid,$docsid);
+	$myarray = array($time,$content,$userid,$docsid);
 	$mysqlpdo->prepare($insert_sql);
 	if ($mysqlpdo->executeArr($myarray)) {
 		$result['result'] = 1;

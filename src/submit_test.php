@@ -79,9 +79,6 @@ function doget($data){
 			return ;
 		}
 
-
-
-
 		$result['result']=1;
 		echo json_encode($result);
 

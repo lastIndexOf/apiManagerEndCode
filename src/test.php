@@ -74,6 +74,8 @@
 
 <button onclick="test_testaubmit()">test_testaubmit</button>
 
+<button onclick="test_getuserByNameLike()">test_getuserByNameLike</button>
+
 <form>
 
 	<input type="file" name="touxiang" id="touxiang" onchange="testtype5()">
@@ -83,6 +85,24 @@
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
+
+
+function test_getuserByNameLike(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/group.php",
+		type:"get",
+		dataType:"json",
+		data:{
+			type:"5",
+			name:"111"
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+
+
+
 function test_testaubmit(){
 	$.ajax({
 		url:"/apiManagerEndCode/src/submit_test.php",

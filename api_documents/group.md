@@ -176,3 +176,24 @@
 	}
 
 
+	5. 根据 输入 查找用户
+	request:
+	{
+		type:5,
+		name:()
+	}
+	request:
+	{
+		result:(0|1)
+		msg:
+		resultList:[
+			{
+				name:
+				id:
+			},
+			{
+				name:
+				id:
+			}
+		]
+	}

@@ -45,6 +45,7 @@
 					docsid:
 					content:
 					userid:
+					name:(用户名称)
 					preview:
 				}
 				

@@ -57,6 +57,20 @@ function doget($data){
 				while($rs = $mysqlpdo->fetch()){
 					$temp = array();
 					foreach ($rs as $key => $value) {
+						if ($key == 'userid') {
+							$select_name = "select `name` from `user` where `id`=?";
+							$myarray_name=array($value);
+							$mysqlTemp->prepare($select_name);
+							if($mysqlTemp->executeArr($myarray_name)){
+								$rs = $mysqlTemp->fetch();
+								$temp['name']=$rs['name'];
+							}else{
+								$result['result']=0;
+								$result['msg'] = "查询数据错误";
+								echo json_encode($result);
+								return;
+							}
+						}
 						$temp[$key] = $value;
 					}
 					$result['resultList'][]=$temp;

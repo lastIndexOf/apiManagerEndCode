@@ -59,7 +59,7 @@ function getuserByNameLike($data){
 	if ($mysqlpdo->executeArr($myarray)) {
 		$rs_num = $mysqlpdo->fetch();
 		if ($rs_num['num']>0) {
-			$select_list = "select `id`,`name`,`username` from `user` where `username` like ?";
+			$select_list = "select `id`,`name`,`username`,`avatar` from `user` where `username` like ?";
 			$mysqlpdo->prepare($select_list);
 			if ($mysqlpdo->executeArr($myarray)) {
 				$result['result']=1;

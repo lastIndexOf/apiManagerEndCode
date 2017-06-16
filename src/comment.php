@@ -98,6 +98,28 @@ function dopost($data){
 	if ($mysqlpdo->executeArr($myarray)) {
 		$result['result']= 1;
 		$result['id']=$mysqlpdo->lastInsertId();
+		$result['docsid']=$docsid;
+		$result['content']=$content;
+		$result['preview']=$preview;
+		$result['fromuser']=$from;
+		$result['time']=$datetime;
+		$result['comment_id'] =$comment_id;
+
+
+		$select_name = "select `name` from `user` where `id`=?";
+		$myarray_name=array($result['fromuser']);
+		$mysqlTemp->prepare($select_name);
+		if($mysqlTemp->executeArr($myarray_name )){
+			$rs = $mysqlTemp->fetch();
+			$result['name']=$rs['name'];
+		}else{
+			$result['result']=0;
+			$result['msg'] = "查询数据错误";
+			echo json_encode($result);
+			return;
+		}
+
+
 	}else{
 		$result['result']= 0;
 		$result['msg']="插入数据失败";

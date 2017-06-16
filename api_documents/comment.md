@@ -21,6 +21,8 @@
 	response:
 	{
 		result:(0|1)0 失败 1成功
+		msg:
+		id:
 	}
 
 

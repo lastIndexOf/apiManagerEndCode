@@ -38,19 +38,19 @@ function doget($data){
 				break;
 		}
 	}
-	
+
 }
 function getByAPIId($apiid){
 	$select_sql = "select * from `request_head` where `api_id` = ?";
-	
+
 	$myarray = array($apiid);
 
 	$result = array();
 	$result['resultList']=array();
-	
+
 	$mysqlpdo = new MySqlPDO();
 	$mysqlpdo->prepare($select_sql);
-	
+
 	if ($mysqlpdo->executeArr($myarray) ) {
 		while($rs = $mysqlpdo->fetch()){
 			$tmp = array();
@@ -97,11 +97,11 @@ function getByHeadId($head_id){
 
 
 function doput($data){
-	
+
 	$update_sql = "update `request_head` set `head` = ?,`name`=? where `id` = ?";
 	$mysqlpdo = new MySqlPDO();
 	$issuccess = 1;
-	for ($i=0; $i < count($data['heads']); $i++) { 
+	for ($i=0; $i < count($data['heads']); $i++) {
 		$myarray = array($data['heads'][$i]['head'],
 						 $data['heads'][$i]['name'],
 						 $data['heads'][$i]['id']);
@@ -166,17 +166,20 @@ function deleteByApiId($data){
 	echo json_encode($result);
 }
 function dopost($data){
+	$data['heads']= json_decode($data['heads'],true);
+
 	$result = array();
 	$mysql_insert = "insert into `request_head` (`head`,`name`,`api_id`) values";
 	$myarray = array();
-	for ($i=0; $i < count($data['heads']); $i++) { 
-		$myarray[] = $data['heads'][$i]['head'];
-		$myarray[] = $data['heads'][$i]['api_id'];
+	for ($i=0; $i < count($data['heads']); $i++) {
+
+		$myarray[] = $data['heads'][$i]["head"];
 		$myarray[] = $data['heads'][$i]['name'];
+		$myarray[] = $data['heads'][$i]['api_id'];
 		$mysql_insert = $mysql_insert."(?,?,?),";
 	}
 	$mysql_insert = substr($mysql_insert,0,strlen($mysql_insert)-1);
-	
+
 	$mysqlpdo= new MySqlPDO();
 	$mysqlpdo->prepare($mysql_insert);
 	if ($mysqlpdo->executeArr($myarray)) {

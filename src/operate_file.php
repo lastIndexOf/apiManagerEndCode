@@ -150,7 +150,7 @@ function doget($data){
 		return;
 	}
 $title_file = $docs_title."_".time();
-$file_path = "../md_file/".$title_file.".md";
+$file_path ="/apiManagerEndCode/md_file/".$title_file.".md";
 file_put_contents($file_path ,$str);
 $result['result']=1;
 $result['filepath']=$file_path;

@@ -24,13 +24,13 @@ function query_api(){
 function doget($data){
 	if (isset($data['api_id'])) {
 		$mysqlpdo = new MySqlPDO();
-		$select_num = "select count(*) as num from `query_api` where `api_id` =?";
+		$select_num = "select count(*) as num from `query` where `api_id` =?";
 		$myarray = array($data['api_id']);
 		$mysqlpdo->prepare($select_num);
 		if ($mysqlpdo->executeArr($myarray)) {
 			$num_rs =$mysqlpdo->fetch();
 			if ($num_rs['num']>0) {
-				$select_list = "select * from `query_api` where `api_id`=?";
+				$select_list = "select * from `query` where `api_id`=?";
 				$mysqlpdo->prepare($select_list);
 				if ($mysqlpdo->executeArr($myarray)) {
 					$result['resultList'] = array();
@@ -83,7 +83,7 @@ function dopost($data){
 	}
 
 
-	$delete_sql = "delete from `query_api` where `api_id` =?";
+	$delete_sql = "delete from `query` where `api_id` =?";
 	$myarray_del = array($data['children'][0]['api_id']);
 	$mysqlpdo_del = new MySqlPDO();
 	$mysqlpdo_del->prepare($delete_sql);
@@ -127,7 +127,7 @@ function analyze_data($data,$myrank,$parent){
 			$json_to_array[]=$temp;
 
 			if ($parent == "") {
-				$insert_sql = "insert into `query_api` (`key`,`desc`,`type`,`rank`,`api_id`,`required`) values(?,?,?,?,?,?)";
+				$insert_sql = "insert into `query` (`key`,`desc`,`type`,`rank`,`api_id`,`required`) values(?,?,?,?,?,?)";
 				$myarray= array($temp['key'],
 								$temp['desc'],
 								$temp['type'],
@@ -135,7 +135,7 @@ function analyze_data($data,$myrank,$parent){
 								$temp['api_id'],
 								$temp['required']);
 			}else{
-				$insert_sql = "insert into `query_api` (`key`,`desc`,`type`,`rank`,`api_id`,`required`,`parent`) values(?,?,?,?,?,?,?)";
+				$insert_sql = "insert into `query` (`key`,`desc`,`type`,`rank`,`api_id`,`required`,`parent`) values(?,?,?,?,?,?,?)";
 				$myarray= array($temp['key'],
 								$temp['desc'],
 								$temp['type'],
@@ -163,7 +163,7 @@ function analyze_data($data,$myrank,$parent){
 			$json_to_array[]=$temp;
 
 			if ($parent == "") {
-				$insert_sql = "insert into `query_api` (`key`,`desc`,`type`,`rank`,`api_id`,`required`) values(?,?,?,?,?,?)";
+				$insert_sql = "insert into `query` (`key`,`desc`,`type`,`rank`,`api_id`,`required`) values(?,?,?,?,?,?)";
 				$myarray= array($temp['key'],
 								$temp['desc'],
 								$temp['type'],
@@ -171,7 +171,7 @@ function analyze_data($data,$myrank,$parent){
 								$temp['api_id'],
 								$temp['required']);
 			}else{
-				$insert_sql = "insert into `query_api` (`key`,`desc`,`type`,`rank`,`api_id`,`required`,`parent`) values(?,?,?,?,?,?,?)";
+				$insert_sql = "insert into `query` (`key`,`desc`,`type`,`rank`,`api_id`,`required`,`parent`) values(?,?,?,?,?,?,?)";
 				$myarray= array($temp['key'],
 								$temp['desc'],
 								$temp['type'],

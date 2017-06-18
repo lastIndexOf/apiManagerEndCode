@@ -76,18 +76,17 @@
 	}
 
 
-2. <a name='test'>测试开始</a>
 
-
-	post /apiManagerEndCode/src/submit_test.php
+###2 <a name='outputFile'>导出文件</a>
+	
 	request:
 	{
-		api_id:
-		根据api_info 的参数来设置
+		docsid:(导出文件的id)
 	}
-
+	
 	response:
 	{
 		result:(0|1)
-		msg:错误信息
+		msg:
+		filepath:文件路径
 	}

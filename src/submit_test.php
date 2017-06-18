@@ -1,15 +1,15 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/apiManagerEndCode/src/MySqlPDO.class.php';
-docs();
+submit_test();
 
-function docs(){
+function submit_test(){
 	session_start();
 	include $_SERVER['DOCUMENT_ROOT'].'/apiManagerEndCode/src/request.php';
 	switch ($request) {
 		case 'GET':
 			doget($data);
 			break;
-		
+
 		
 		default:
 			# code...

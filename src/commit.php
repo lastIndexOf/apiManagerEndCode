@@ -60,6 +60,8 @@ function doget($data){
 						if ($key == 'userid') {
 							$select_name = "select `name` from `user` where `id`=?";
 							$myarray_name=array($value);
+							$mysqlTemp = new MySqlPDO();
+							
 							$mysqlTemp->prepare($select_name);
 							if($mysqlTemp->executeArr($myarray_name)){
 								$rs = $mysqlTemp->fetch();

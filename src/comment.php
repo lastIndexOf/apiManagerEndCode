@@ -48,12 +48,12 @@ function doget($data){
 						$temp = array();
 						foreach ($rs as $key => $value) {
 							if ($key == 'fromuser') {
-								$select_name = "select `name` from `user` where `id`=?";
+								$select_name = "select `username` from `user` where `id`=?";
 								$myarray_name=array($value);
 								$mysqlTemp->prepare($select_name);
 								if($mysqlTemp->executeArr($myarray_name)){
 									$rs = $mysqlTemp->fetch();
-									$temp['name']=$rs['name'];
+									$temp['username']=$rs['username'];
 								}else{
 									$result['result']=0;
 									$result['msg'] = "查询数据错误";
@@ -107,12 +107,12 @@ function dopost($data){
 
 
 		$mysqlTemp = new MySqlPDO();
-		$select_name = "select `name` from `user` where `id`=?";
+		$select_name = "select `username` from `user` where `id`=?";
 		$myarray_name=array($result['fromuser']);
 		$mysqlTemp->prepare($select_name);
 		if($mysqlTemp->executeArr($myarray_name )){
 			$rs = $mysqlTemp->fetch();
-			$result['name']=$rs['name'];
+			$result['username']=$rs['username'];
 		}else{
 			$result['result']=0;
 			$result['msg'] = "查询数据错误";

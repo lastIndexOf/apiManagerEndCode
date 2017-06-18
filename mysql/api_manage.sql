@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50612
 File Encoding         : 65001
 
-Date: 2017-06-18 12:33:47
+Date: 2017-06-18 20:13:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -33,9 +33,9 @@ CREATE TABLE `api` (
 -- ----------------------------
 -- Records of api
 -- ----------------------------
-INSERT INTO `api` VALUES ('1', '1', 'put', '/apiManagerEndCode/src/apis.php', '描述222');
-INSERT INTO `api` VALUES ('3', '1', 'get', '/apiManagerEndCode/src/apis.php', '描述222');
-INSERT INTO `api` VALUES ('4', '1', 'put', '描述222', '描述222');
+INSERT INTO `api` VALUES ('1', '1', 'put', '/apiManagerEndCode/src/apis1.php', '描述111');
+INSERT INTO `api` VALUES ('3', '1', 'get', '/apiManagerEndCode/src/apis2.php', '描述222');
+INSERT INTO `api` VALUES ('4', '1', 'put', '/apiManagerEndCode/src/apis3.php', '描述333');
 
 -- ----------------------------
 -- Table structure for api_info
@@ -55,11 +55,13 @@ CREATE TABLE `api_info` (
   KEY `api_info_ibfk_3` (`parent`),
   CONSTRAINT `api_info_ibfk_2` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `api_info_ibfk_3` FOREIGN KEY (`parent`) REFERENCES `api_info` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of api_info
 -- ----------------------------
+INSERT INTO `api_info` VALUES ('1', 'key_api_info1', 'desc_api_info', '1', '1', null, '1', '1');
+INSERT INTO `api_info` VALUES ('2', 'key_api_info', 'desc_apii_info', '2', '1', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for comment
@@ -127,7 +129,7 @@ CREATE TABLE `docs` (
 -- ----------------------------
 -- Records of docs
 -- ----------------------------
-INSERT INTO `docs` VALUES ('1', 'title', '2017-06-02 19:58:52', '8', 'desc', '00');
+INSERT INTO `docs` VALUES ('1', 'title111', '2017-06-02 19:58:52', '8', 'desc', '00');
 
 -- ----------------------------
 -- Table structure for group
@@ -216,7 +218,7 @@ CREATE TABLE `log` (
   `id` int(255) NOT NULL,
   `userid` int(255) NOT NULL,
   `api_id` int(255) NOT NULL,
-  `content` varchar(255) NOT NULL,
+  `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `time` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`),
@@ -252,6 +254,30 @@ CREATE TABLE `note` (
 INSERT INTO `note` VALUES ('2', '2017-06-14 14:42:06', '111111', 'title', 'mtitle', '8', '22222');
 INSERT INTO `note` VALUES ('3', '2017-06-14 14:42:43', '111111', 'title', 'mtitle', '8', '22222');
 INSERT INTO `note` VALUES ('4', '2017-06-15 08:39:39', '111111', 'title', 'mtitle', '8', '22222');
+
+-- ----------------------------
+-- Table structure for query
+-- ----------------------------
+DROP TABLE IF EXISTS `query`;
+CREATE TABLE `query` (
+  `id` int(255) NOT NULL AUTO_INCREMENT,
+  `key` varchar(255) COLLATE utf8_bin NOT NULL,
+  `desc` varchar(255) COLLATE utf8_bin NOT NULL,
+  `type` varchar(255) COLLATE utf8_bin NOT NULL,
+  `rank` int(255) DEFAULT NULL,
+  `parent` int(255) DEFAULT NULL,
+  `required` int(255) DEFAULT NULL COMMENT '0表示false    1表示true',
+  `api_id` int(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `api_id` (`api_id`),
+  KEY `parent` (`parent`),
+  CONSTRAINT `query_ibfk_2` FOREIGN KEY (`parent`) REFERENCES `query` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `query_ibfk_1` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of query
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for request_head
@@ -304,11 +330,13 @@ CREATE TABLE `response_api` (
   KEY `response_api_ibfk_2` (`api_id`),
   CONSTRAINT `response_api_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `response_api` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `response_api_ibfk_2` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of response_api
 -- ----------------------------
+INSERT INTO `response_api` VALUES ('1', 'key_response', 'desc_ressponse', '1', '1', null, '1', '1');
+INSERT INTO `response_api` VALUES ('3', 'key_response2', 'desc_response2', '2', '3', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for user

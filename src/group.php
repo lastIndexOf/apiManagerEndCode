@@ -167,6 +167,17 @@ function getallGroup($data){
 					while ($rs = $mysqlpdo->fetch()) {
 						$temp = array();
 						foreach ($rs as $key => $value) {
+							if ($key=='headman') {
+								$sqlpdo_handman =new MySqlPDO();
+								$select_user = "select * from `user` where `id` =?";
+								$array_headman = array($value);
+								$sqlpdo_handman->prepare($select_user);
+
+								if ($sqlpdo_handman->executeArr($array_headman) ) {
+									$rs_user = $sqlpdo_handman->fetch();
+									$temp['username']=$rs_user['username'];
+								}
+							}
 							$temp[$key] = $value;
 						}
 						$result['resultList'][] = $temp;
@@ -205,6 +216,17 @@ function getbyid($data){
 			if ($mypdo->executeArr($myarray)) {
 				$rs = $mypdo->fetch();
 				foreach ($rs as $key => $value) {
+					if ($key=='headman') {
+						$sqlpdo_handman =new MySqlPDO();
+						$select_user = "select * from `user` where `id` =?";
+						$array_headman = array($value);
+						$sqlpdo_handman->prepare($select_user);
+
+						if ($sqlpdo_handman->executeArr($array_headman) ) {
+							$rs_user = $sqlpdo_handman->fetch();
+							$result['group']['username']=$rs_user['username'];
+						}
+					}
 					$result['group'][$key] = $value;
 				}
 
@@ -253,6 +275,17 @@ function getbyname($data){
 				while($rs_resultlist = $mysqlpdo->fetch()){
 					$temp = array();
 					foreach ($rs_resultlist as $key => $value) {
+						if ($key=='headman') {
+							$sqlpdo_handman =new MySqlPDO();
+							$select_user = "select * from `user` where `id` =?";
+							$array_headman = array($value);
+							$sqlpdo_handman->prepare($select_user);
+
+							if ($sqlpdo_handman->executeArr($array_headman) ) {
+								$rs_user = $sqlpdo_handman->fetch();
+								$temp['username']=$rs_user['username'];
+							}
+						}
 
 						$temp[$key] = $value;
 					}

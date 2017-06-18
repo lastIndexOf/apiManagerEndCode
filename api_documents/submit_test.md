@@ -87,7 +87,7 @@
 	}
 
 	response:
-{
-	result:(0|1)
-	msg:错误信息
-}
+	{
+		result:(0|1)
+		msg:错误信息
+	}

@@ -77,8 +77,7 @@ function dopost($data){
 	$data['children'] = json_decode($data['children'],true);
 
 	if (count($data['children'])<=0) {
-		$result['result']=0;
-		$result['msg']="传输数据错误";
+		$result['result']=1;
 		echo json_encode($result);
 		return ;
 	}

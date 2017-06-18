@@ -106,6 +106,7 @@ function dopost($data){
 		$result['comment_id'] =$comment_id;
 
 
+		$mysqlTemp = new MySqlPDO();
 		$select_name = "select `name` from `user` where `id`=?";
 		$myarray_name=array($result['fromuser']);
 		$mysqlTemp->prepare($select_name);

@@ -41,12 +41,52 @@ function doget($data){
 			case '4':
 				getuserBygroupid($data);
 				break;
+			case '5':
+				getuserByNameLike($data);
+				break;
 			default:
 				# code...
 				break;
 		}
 	};
 }
+function getuserByNameLike($data){
+	$likename = $data['name'];
+	$myarray = array("%".$likename."%");
+	$mysqlpdo = new MySqlPDO();
+	$select_num = "select count(*) as num from `user` where `username` like ?";
+	$mysqlpdo->prepare($select_num);
+	if ($mysqlpdo->executeArr($myarray)) {
+		$rs_num = $mysqlpdo->fetch();
+		if ($rs_num['num']>0) {
+			$select_list = "select `id`,`name`,`username`,`avatar` from `user` where `username` like ?";
+			$mysqlpdo->prepare($select_list);
+			if ($mysqlpdo->executeArr($myarray)) {
+				$result['result']=1;
+				$result["resultList"]=array();
+				while($rs = $mysqlpdo->fetch()){
+					$temp = array();
+					foreach ($rs as $key => $value) {
+						$temp[$key] = $value;
+					}
+					$result["resultList"][]=$temp;
+
+				}
+			}
+		}else{
+			$result['result']=0;
+			$result['msg']="查询数据出现错误";
+		}
+	}else{
+		$result['result']=0;
+		$result['msg']="查询数据数量出现错误";
+	}
+
+	echo json_encode($result);
+}
+
+
+
 function getuserBygroupid($data){
 	if (isset($data['groupid'])) {
 		$groupid = $data['groupid'];

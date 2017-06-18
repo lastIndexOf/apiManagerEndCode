@@ -44,12 +44,17 @@ function doget($data){
 			case '5':
 				getuserByNameLike($data);
 				break;
+			case '6':
+				addgroup($data);
+				break;
 			default:
 				# code...
 				break;
 		}
 	};
 }
+
+
 function getuserByNameLike($data){
 	$likename = $data['name'];
 	$myarray = array("%".$likename."%");
@@ -347,6 +352,43 @@ function dodelete($data){
 
 	echo json_encode($result);
 }
+
+
+function addgroup($data){
+	if (!isset($data['ids'])) {
+		 $result["result"] = '0';
+		 $result['msg'] ="数据传输错误";
+		echo json_encode($result);
+		return;
+	}
+
+	$mypdo= new MySqlPDO();
+	$ids = explode("+",$data['ids']);
+
+	$lastid = $data['groupid'];
+
+	$time = date('Y-m-d H:i:s');
+	$insert_sql = "insert into group_user (groupid,userid,time) values ";
+	$myarray = array();
+
+	for ($i=0; $i < count($ids); $i++) {
+		$insert_sql = $insert_sql."(?,?,?),";
+		$myarray[] = $lastid;
+		$myarray[] = $ids[$i];
+		$myarray[] = $time;
+	}
+	$insert_sql =substr($insert_sql,0,strlen($insert_sql)-1);
+	$mypdo->prepare($insert_sql);
+	if ($mypdo->executeArr($myarray)) {
+		$result['result']='1';
+	}else{
+		$result['result']='0';
+		$result['msg']="插入数据错误";
+	}
+
+	echo json_encode($result);
+}
+
 
 function dopost($data){
 

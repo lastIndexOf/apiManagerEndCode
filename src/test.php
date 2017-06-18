@@ -79,6 +79,7 @@
 
 <button onclick="test_docstest_addmdfile()">test_docstest_addmdfile</button>
 
+<button onclick="test_adduserinto_group()">test_adduserinto_group</button>
 <form>
 
 	<input type="file" name="touxiang" id="touxiang" onchange="testtype5()">
@@ -88,6 +89,26 @@
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
+
+
+function test_adduserinto_group(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/group.php",
+		type:"get",
+		dataType:"json",
+		data:{
+			type:'6',
+			groupid:"11",
+			ids:"8+9"
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
+
+
+
+
 function test_docstest_addmdfile(){
 	$.ajax({
 		url:"/apiManagerEndCode/src/operate_file.php",

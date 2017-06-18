@@ -76,6 +76,9 @@
 
 <button onclick="test_getuserByNameLike()">test_getuserByNameLike</button>
 
+
+<button onclick="test_docstest_addmdfile()">test_docstest_addmdfile</button>
+
 <form>
 
 	<input type="file" name="touxiang" id="touxiang" onchange="testtype5()">
@@ -85,7 +88,18 @@
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
-
+function test_docstest_addmdfile(){
+	$.ajax({
+		url:"/apiManagerEndCode/src/operate_file.php",
+		type:"get",
+		dataType:"json",
+		data:{
+			docsid:"1"
+		},
+		success:function(data){},
+		error:function(){}
+	})
+}
 
 function test_getuserByNameLike(){
 	$.ajax({
@@ -402,7 +416,7 @@ function testadd_request_head(){
 
 function testadd_apiinfo(){
 		$.ajax({
-		url:"/apiManagerEndCode/src/api_info.php",
+		url:"/apiManagerEndCode/src/query.php",
 		type:"post",
 		dataType:"json",
 		data:{

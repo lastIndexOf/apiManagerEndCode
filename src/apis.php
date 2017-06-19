@@ -16,13 +16,34 @@ function api(){
 		case 'GET':
 			doget($data);
 			break;
+		case 'DELETE':
+			dodelete($data);
+			break;
 		
 		default:
 			# code...
 			break;
 	}
 }
+function dodelete($data){
+	if (!isset($data['apisid'])) {
+		$result['result']=0;
+		$result['msg']="发送数据错误";
+		echo json_encode($result);
+		return;
+	}
+	$delete_api = "delete from `api` where id=?";
+	$mysqlpdo = new MySqlPDO();
+	$myarray = new array($data['apisid']);
+	$mysqlpdo->prepare($delete_api);
 
+	if ($mysqlpdo->executeArr($myarray)) {
+		$result['result']=1;
+	}
+	echo json_encode($result);
+
+
+}
 function doget($data){
 	$docsid = $data['docsid'];
 	if (isset($docsid) ) {

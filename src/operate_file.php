@@ -58,7 +58,7 @@ function doget($data){
 								$str.=$rs_api['url']."   ";
 								$str.=$rs_api['desc']."   \r\n";
 
-								$str.="接收参数   \r\n";
+								$str.="请求参数   \r\n";
 								$array_api_info_id = array($rs_api['id']);
 								$mysqlpdo_info = new MySqlPDO();
 
@@ -108,6 +108,36 @@ function doget($data){
 									if (!$mysqlpdo_response->executeArr($array_api_info_id)) {
 										$result["result"]="0";
 										$result['msg']="查询响应参数错误";
+										echo json_encode($result);
+										return;
+									}
+									while($rs_response =  $mysqlpdo_response->fetch()){
+										$str.="- ".$rs_response['key']." `".$rs_response['type']."` => ".$rs_response['desc']."  \r\n";
+									}
+
+								}
+
+
+
+								$str.="\r\n查询参数\r\n";
+								$mysqlpdo_response = new MySqlPDO();
+								$select_response = "select count(*) as num from `query` where `api_id` = ?";
+								$mysqlpdo_response->prepare($select_response);
+
+								if (!$mysqlpdo_response->executeArr($array_api_info_id)) {
+									$result["result"]="0";
+									$result['msg']="查询查询参数错误";
+									echo json_encode($result);
+									return;
+								}
+								$rs_response_num = $mysqlpdo_response->fetch();
+								if($rs_response_num['num']>0){
+									$select_response = "select * from `query` where `api_id` = ?";
+									$mysqlpdo_response->prepare($select_response);
+
+									if (!$mysqlpdo_response->executeArr($array_api_info_id)) {
+										$result["result"]="0";
+										$result['msg']="查询查询参数错误";
 										echo json_encode($result);
 										return;
 									}

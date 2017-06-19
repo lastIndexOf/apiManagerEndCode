@@ -9,7 +9,7 @@ function operate_file(){
 		case 'GET':
 			doget($data);
 			break;
-		
+
 
 		
 		default:
@@ -152,19 +152,20 @@ function doget($data){
 	}
 $title_file = $docs_title."_".time();
 $file_path ="/apiManagerEndCode/md_file/".$title_file.".md";
-if (file_put_contents($file_path ,$str)>0) {
-	$result['result']=1;
-	$result['filepath']=$file_path;
+if (file_put_contents($_SERVER['DOCUMENT_ROOT'].$file_path ,$str)>0) {
+	$result['result']=1;	
+	$downLoadfilepath = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].$file_path;
+	$result['filepath']=$downLoadfilepath;
+
 }else{
 	$result['result']=0;
 	$result['msg']="写入文件错误，请检查权限";
 }
 
+
 echo json_encode($result);
 
 }
-
-
 
 
 ?>

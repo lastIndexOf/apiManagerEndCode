@@ -32,9 +32,9 @@ function dodelete($data){
 		echo json_encode($result);
 		return;
 	}
-	$delete_api = "delete from `api` where id=?";
+	$delete_api = "delete from `api` where 	`id`=?";
 	$mysqlpdo = new MySqlPDO();
-	$myarray = new array($data['apisid']);
+	$myarray = array($data['apisid']);
 	$mysqlpdo->prepare($delete_api);
 
 	if ($mysqlpdo->executeArr($myarray)) {

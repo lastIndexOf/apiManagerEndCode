@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50612
 File Encoding         : 65001
 
-Date: 2017-06-18 20:13:30
+Date: 2017-06-19 10:41:03
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -195,7 +195,7 @@ CREATE TABLE `group_user` (
   KEY `group_user_ibfk_3` (`groupid`),
   CONSTRAINT `group_user_ibfk_2` FOREIGN KEY (`userid`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `group_user_ibfk_3` FOREIGN KEY (`groupid`) REFERENCES `group` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of group_user
@@ -209,13 +209,19 @@ INSERT INTO `group_user` VALUES ('15', '16', '9', '2017-06-13 15:53:08');
 INSERT INTO `group_user` VALUES ('16', '17', '9', '2017-06-13 15:55:23');
 INSERT INTO `group_user` VALUES ('17', '9', '9', '2017-06-13 16:20:27');
 INSERT INTO `group_user` VALUES ('18', '8', '9', '2017-06-13 16:20:38');
+INSERT INTO `group_user` VALUES ('21', '11', '8', '2017-06-18 23:12:34');
+INSERT INTO `group_user` VALUES ('22', '11', '9', '2017-06-18 23:12:34');
+INSERT INTO `group_user` VALUES ('23', '11', '8', '2017-06-18 23:12:58');
+INSERT INTO `group_user` VALUES ('24', '11', '9', '2017-06-18 23:12:58');
+INSERT INTO `group_user` VALUES ('25', '11', '8', '2017-06-19 08:52:05');
+INSERT INTO `group_user` VALUES ('26', '11', '9', '2017-06-19 08:52:05');
 
 -- ----------------------------
 -- Table structure for log
 -- ----------------------------
 DROP TABLE IF EXISTS `log`;
 CREATE TABLE `log` (
-  `id` int(255) NOT NULL,
+  `id` int(255) NOT NULL AUTO_INCREMENT,
   `userid` int(255) NOT NULL,
   `api_id` int(255) NOT NULL,
   `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
@@ -273,11 +279,18 @@ CREATE TABLE `query` (
   KEY `parent` (`parent`),
   CONSTRAINT `query_ibfk_2` FOREIGN KEY (`parent`) REFERENCES `query` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `query_ibfk_1` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of query
 -- ----------------------------
+INSERT INTO `query` VALUES ('1', 'key11', 'desc11', '11', '0', null, '1', '1');
+INSERT INTO `query` VALUES ('2', 'key22', 'desc22', '22', '1', '1', '2', '1');
+INSERT INTO `query` VALUES ('3', 'key22', 'desc22', '22', '2', '2', '2', '1');
+INSERT INTO `query` VALUES ('4', 'key22', 'desc22', '22', '2', '2', '2', '1');
+INSERT INTO `query` VALUES ('5', '21', '21', '21', '0', null, '1', '1');
+INSERT INTO `query` VALUES ('6', '21', '21', '21', '0', null, '1', '1');
+INSERT INTO `query` VALUES ('7', '21', '21', '21', '0', null, '1', '1');
 
 -- ----------------------------
 -- Table structure for request_head

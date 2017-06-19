@@ -84,7 +84,7 @@ function doget($data){
 										return;
 									}
 									while($rs = $mysqlpdo_info->fetch()){
-										$str.="- ".$rs['key']." `".$rs['type']."` => ".$rs['desc']."  \r\n";
+										$str.="- ".$rs['key']." `".changeStr($rs['type'])."` => ".$rs['desc']."  \r\n";
 									}
 
 								}
@@ -112,7 +112,7 @@ function doget($data){
 										return;
 									}
 									while($rs_response =  $mysqlpdo_response->fetch()){
-										$str.="- ".$rs_response['key']." `".$rs_response['type']."` => ".$rs_response['desc']."  \r\n";
+										$str.="- ".$rs_response['key']." `".changeStr($rs_response['type'])."` => ".$rs_response['desc']."  \r\n";
 									}
 
 								}
@@ -142,7 +142,7 @@ function doget($data){
 										return;
 									}
 									while($rs_response =  $mysqlpdo_response->fetch()){
-										$str.="- ".$rs_response['key']." `".$rs_response['type']."` => ".$rs_response['desc']."  \r\n";
+										$str.="- ".$rs_response['key']." `".changeStr($rs_response['type'])."` => ".$rs_response['desc']."  \r\n";
 									}
 
 								}
@@ -152,9 +152,6 @@ function doget($data){
 
 							}
 						}
-
-
-
 					}
 				}
 
@@ -197,5 +194,47 @@ echo json_encode($result);
 
 }
 
+
+function changeStr($type){
+
+
+	// Number	1
+	// String 2
+	// Array 3
+	// Object 4
+	// Date 5
+	// Boolean 6
+	// Symbol 7
+
+	$str="";
+	switch ($type) {
+		case '1':
+			$str="Number";
+			break;
+		case '2':
+			$str="String";
+			break;
+		case '3':
+			$str="Array";
+			break;
+		case '4':
+			$str="Object";
+			break;
+		case '5':
+			$str="Date";
+			break;
+		case '6':
+			$str="Boolean";
+			break;
+		case '7':
+			$str = "Symbol";
+			break;
+		
+		default:
+			# code...
+			break;
+	}
+	return $str;
+}
 
 ?>

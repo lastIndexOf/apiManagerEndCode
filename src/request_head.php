@@ -174,6 +174,12 @@ function dopost($data){
 
 	$mysqlpdo = new MySqlPDO();
 	$mysqlpdo->prepare($delete_sql);
+	if (empty($data['heads'])) {
+		$result['result']= 1;
+		echo json_encode($result);
+		return ;
+	}
+
 	$myarray = array($data['heads'][0]['api_id']);
 	if ( $mysqlpdo->executeArr($myarray) ) { //删除之前的数据
 	}else{

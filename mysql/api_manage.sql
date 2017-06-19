@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50612
 File Encoding         : 65001
 
-Date: 2017-06-19 10:41:03
+Date: 2017-06-19 11:56:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -49,7 +49,7 @@ CREATE TABLE `api_info` (
   `rank` int(255) DEFAULT NULL COMMENT '0表好第一级别，  \r\n1是他的子级别，，，，',
   `parent` int(255) DEFAULT NULL,
   `api_id` int(255) NOT NULL,
-  `required` int(2) NOT NULL COMMENT '0表示false    1表示true',
+  `required` varchar(30) COLLATE utf8_bin NOT NULL COMMENT '0表示false    1表示true',
   PRIMARY KEY (`id`),
   KEY `api_info_ibfk_2` (`api_id`),
   KEY `api_info_ibfk_3` (`parent`),
@@ -60,8 +60,6 @@ CREATE TABLE `api_info` (
 -- ----------------------------
 -- Records of api_info
 -- ----------------------------
-INSERT INTO `api_info` VALUES ('1', 'key_api_info1', 'desc_api_info', '1', '1', null, '1', '1');
-INSERT INTO `api_info` VALUES ('2', 'key_api_info', 'desc_apii_info', '2', '1', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for comment
@@ -272,25 +270,18 @@ CREATE TABLE `query` (
   `type` varchar(255) COLLATE utf8_bin NOT NULL,
   `rank` int(255) DEFAULT NULL,
   `parent` int(255) DEFAULT NULL,
-  `required` int(255) DEFAULT NULL COMMENT '0表示false    1表示true',
+  `required` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT '0表示false    1表示true',
   `api_id` int(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `api_id` (`api_id`),
   KEY `parent` (`parent`),
-  CONSTRAINT `query_ibfk_2` FOREIGN KEY (`parent`) REFERENCES `query` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `query_ibfk_1` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `query_ibfk_1` FOREIGN KEY (`api_id`) REFERENCES `api` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `query_ibfk_2` FOREIGN KEY (`parent`) REFERENCES `query` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of query
 -- ----------------------------
-INSERT INTO `query` VALUES ('1', 'key11', 'desc11', '11', '0', null, '1', '1');
-INSERT INTO `query` VALUES ('2', 'key22', 'desc22', '22', '1', '1', '2', '1');
-INSERT INTO `query` VALUES ('3', 'key22', 'desc22', '22', '2', '2', '2', '1');
-INSERT INTO `query` VALUES ('4', 'key22', 'desc22', '22', '2', '2', '2', '1');
-INSERT INTO `query` VALUES ('5', '21', '21', '21', '0', null, '1', '1');
-INSERT INTO `query` VALUES ('6', '21', '21', '21', '0', null, '1', '1');
-INSERT INTO `query` VALUES ('7', '21', '21', '21', '0', null, '1', '1');
 
 -- ----------------------------
 -- Table structure for request_head
@@ -337,7 +328,7 @@ CREATE TABLE `response_api` (
   `rank` int(255) DEFAULT NULL,
   `parent` int(255) DEFAULT NULL,
   `api_id` int(255) NOT NULL,
-  `required` int(255) NOT NULL,
+  `required` varchar(30) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
   KEY `response_api_ibfk_1` (`parent`),
   KEY `response_api_ibfk_2` (`api_id`),
@@ -348,8 +339,6 @@ CREATE TABLE `response_api` (
 -- ----------------------------
 -- Records of response_api
 -- ----------------------------
-INSERT INTO `response_api` VALUES ('1', 'key_response', 'desc_ressponse', '1', '1', null, '1', '1');
-INSERT INTO `response_api` VALUES ('3', 'key_response2', 'desc_response2', '2', '3', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for user
